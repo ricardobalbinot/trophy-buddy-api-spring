@@ -20,16 +20,20 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
 @org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 @Configuration(proxyBeanMethods = false)
 class SecurityConfiguration {
 
 	@Bean
-	SecurityFilterChain security(HttpSecurity http, FirebaseIdentity identity,
+	SecurityFilterChain security(HttpSecurity http, FirebaseIdentity identity, ObjectMapper json,
 			@Value("${trophybuddy.cors.origins}") String origins) throws Exception {
 		var cors = new CorsConfiguration();
-		cors.setAllowedOrigins(Arrays.stream(origins.split(",")).map(String::trim).toList());
+		cors.setAllowedOrigins(
+				origins.stripLeading().startsWith("[") ? json.readValue(origins, new TypeReference<List<String>>() {
+				}) : Arrays.stream(origins.split(",")).map(String::trim).toList());
 		cors.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
 		cors.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Request-ID"));
 		cors.setExposedHeaders(List.of("X-Request-ID"));
