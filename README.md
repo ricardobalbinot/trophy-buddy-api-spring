@@ -40,7 +40,7 @@ Use JDK 21 and PostgreSQL. Create an empty local database for the Spring applica
 | `CORS_ORIGINS` | Comma-separated frontend origins. Defaults to `http://localhost:3000` |
 | `PORT` | Local HTTP port. Defaults to `8081` |
 
-Keep credentials outside the repository. For a local copy of the existing Python database at Alembic revision `e55ca287043a`, leave Flyway disabled. If both implementations use a shared PSN refresh session, run one writer.
+Keep credentials outside the repository. For a local copy of the existing Python database at Alembic revision `e55ca287043a`, follow the [database rollout procedure](docs/guide-evidence.md#release-prerequisite). If both implementations use a shared PSN refresh session, run one writer.
 
 ```sh
 ./mvnw spring-boot:run
@@ -80,3 +80,5 @@ java -jar target/trophy-buddy-api-spring-0.0.1-SNAPSHOT.jar --trophybuddy.guide-
 ```
 
 Use `bind` with `--service`, `--set-id`, `--entry-id`, and `--rationale`. Use `add-resource` with `--service`, `--set-id`, `--trophy-id`, `--title`, `--source-name`, `--url`, `--kind`, and `--language`. Resources start as drafts. Use `--publish` after review and `--spoiler-safe` for resources that can be shown without a spoiler warning.
+
+[Guide evidence operations](docs/guide-evidence.md) covers importing source-attributed trophy conditions and applying the required database migration.
