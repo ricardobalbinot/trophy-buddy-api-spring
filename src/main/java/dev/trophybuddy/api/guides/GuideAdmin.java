@@ -2,8 +2,10 @@ package dev.trophybuddy.api.guides;
 
 import dev.trophybuddy.api.support.OperationLeases;
 import dev.trophybuddy.api.support.ProviderHttp;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -47,13 +49,16 @@ class GuideAdmin implements ApplicationRunner {
 
 	private final OperationLeases leases;
 
+	private final GuideEvidenceImport evidence;
+
 	GuideAdmin(JdbcClient jdbc, ObjectMapper json, ProviderHttp http, TransactionTemplate transactions,
-			OperationLeases leases) {
+			OperationLeases leases, GuideEvidenceImport evidence) {
 		this.jdbc = jdbc;
 		this.json = json;
 		this.http = http;
 		this.transactions = transactions;
 		this.leases = leases;
+		this.evidence = evidence;
 	}
 
 	private record Source(String id, String name, String root) {
@@ -65,12 +70,17 @@ class GuideAdmin implements ApplicationRunner {
 	}
 
 	@Override
-	public void run(ApplicationArguments args) {
+	public void run(ApplicationArguments args) throws IOException {
 		switch (arg(args, "trophybuddy.guide-admin")) {
 			case "import-index" -> importIndex();
 			case "list" -> list(arg(args, "game"));
 			case "bind" -> bind(args);
 			case "add-resource" -> resource(args);
+			case "import-evidence" -> {
+				boolean published = args.containsOption("publish");
+				String digest = evidence.importFile(Path.of(arg(args, "file")), published);
+				System.out.printf("Guide evidence %s: %s%n", digest, published ? "published" : "draft");
+			}
 			default -> throw new IllegalArgumentException("Unknown guide command");
 		}
 	}

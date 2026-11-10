@@ -21,7 +21,9 @@ class HealthController {
 
 	@GetMapping("/readyz")
 	Map<String, String> readiness() {
-		jdbc.sql("SELECT uid FROM libraries LIMIT 0").query(String.class).list();
+		jdbc.sql("""
+				SELECT 1 FROM libraries CROSS JOIN trophy_guide_claims CROSS JOIN guide_evidence_revisions LIMIT 0
+				""").query(Integer.class).list();
 		return Map.of("status", "ready");
 	}
 

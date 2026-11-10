@@ -76,6 +76,7 @@ class MigrationIntegrationTests {
 			.content("{}"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.details.trophies[0].earned").value(true))
+			.andExpect(jsonPath("$.details.trophies[0].guideEvidence").isEmpty())
 			.andExpect(jsonPath("$.details.groups[0].name").value("Base Game"))
 			.andExpect(jsonPath("$.details.guide.matchMethod").value("automatic"))
 			.andExpect(jsonPath("$.details.guideAnalysis").value("blocked"));

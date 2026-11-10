@@ -30,29 +30,36 @@ class DetailStore {
 	}
 
 	ObjectNode find(String uid, String id) {
-		return jdbc.sql("""
-				SELECT (d.payload || jsonb_build_object('trophies', coalesce((
-				  SELECT jsonb_agg(jsonb_build_object(
-				    'id', t.trophy_id, 'groupId', t.group_id, 'name', t.name, 'description', t.description,
-				    'imageUrl', t.image_url, 'type', t.type, 'hidden', t.hidden, 'earned', p.earned,
-				    'earnedAt', p.earned_at, 'earnedRate', p.earned_rate, 'resources', coalesce((
-				      SELECT jsonb_agg(jsonb_build_object('id', r.resource_id, 'title', r.title,
-				        'sourceName', r.source_name, 'sourceUrl', r.source_url, 'kind', r.kind,
-				        'language', r.language, 'containsSpoilers', r.contains_spoilers) ORDER BY r.resource_id)
-				      FROM trophy_resources r WHERE (r.service, r.set_id, r.trophy_id) =
-				        (t.service, t.set_id, t.trophy_id) AND r.published
-				    ), '[]'::jsonb)
-				  ) ORDER BY t.trophy_id)
-				  FROM profile_trophies p JOIN trophies t USING(service, set_id, trophy_id)
-				  WHERE p.uid = d.uid AND p.game_id = d.game_id
-				), '[]'::jsonb), 'groups', coalesce((
-				  SELECT jsonb_agg(jsonb_build_object('id', g.group_id, 'name', g.name)
-				    ORDER BY (g.group_id = 'default') DESC, g.group_id)
-				  FROM detail_trophy_groups dg JOIN trophy_groups g USING(service, set_id, group_id)
-				  WHERE dg.uid = d.uid AND dg.game_id = d.game_id AND g.name IS NOT NULL
-				), '[]'::jsonb)))::text
-				FROM game_details d WHERE d.uid = :uid AND d.game_id = :id
-				""")
+		return jdbc
+			.sql("""
+					SELECT (d.payload || jsonb_build_object('trophies', coalesce((
+					  SELECT jsonb_agg(jsonb_build_object(
+					    'id', t.trophy_id, 'groupId', t.group_id, 'name', t.name, 'description', t.description,
+					    'imageUrl', t.image_url, 'type', t.type, 'hidden', t.hidden, 'earned', p.earned,
+					    'earnedAt', p.earned_at, 'earnedRate', p.earned_rate, 'resources', coalesce((
+					      SELECT jsonb_agg(jsonb_build_object('id', r.resource_id, 'title', r.title,
+					        'sourceName', r.source_name, 'sourceUrl', r.source_url, 'kind', r.kind,
+					        'language', r.language, 'containsSpoilers', r.contains_spoilers) ORDER BY r.resource_id)
+					      FROM trophy_resources r WHERE (r.service, r.set_id, r.trophy_id) =
+					        (t.service, t.set_id, t.trophy_id) AND r.published
+					    ), '[]'::jsonb), 'guideEvidence', coalesce((
+					      SELECT jsonb_agg(jsonb_build_object('kind', c.kind, 'applies', c.applies,
+					        'sourceName', r.source_name, 'sourceUrl', c.source_url, 'locator', c.locator,
+					        'note', c.note, 'revision', c.digest) ORDER BY c.kind, c.source_url)
+					      FROM trophy_guide_claims c JOIN guide_evidence_revisions r USING (service, set_id, source_url, digest)
+					      WHERE (c.service, c.set_id, c.trophy_id) = (t.service, t.set_id, t.trophy_id) AND r.published
+					    ), '[]'::jsonb)
+					  ) ORDER BY t.trophy_id)
+					  FROM profile_trophies p JOIN trophies t USING(service, set_id, trophy_id)
+					  WHERE p.uid = d.uid AND p.game_id = d.game_id
+					), '[]'::jsonb), 'groups', coalesce((
+					  SELECT jsonb_agg(jsonb_build_object('id', g.group_id, 'name', g.name)
+					    ORDER BY (g.group_id = 'default') DESC, g.group_id)
+					  FROM detail_trophy_groups dg JOIN trophy_groups g USING(service, set_id, group_id)
+					  WHERE dg.uid = d.uid AND dg.game_id = d.game_id AND g.name IS NOT NULL
+					), '[]'::jsonb)))::text
+					FROM game_details d WHERE d.uid = :uid AND d.game_id = :id
+					""")
 			.param("uid", uid)
 			.param("id", id)
 			.query(String.class)
