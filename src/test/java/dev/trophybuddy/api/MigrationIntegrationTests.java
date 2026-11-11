@@ -57,8 +57,8 @@ class MigrationIntegrationTests {
 		var trophy = new PsnClient.Trophy(0, "default", "Winner", "Finish the game", null, "platinum", false, true,
 				"2026-01-01T00:00:00Z", 10.5);
 		when(psn.importLibrary("PublicPlayer")).thenReturn(imported).thenThrow(new ApiFailure("incomplete_psn_page"));
-		when(psn.trophies(game, account)).thenReturn(
-				new PsnClient.Observations(List.of(trophy), List.of(new PsnClient.Group("default", "Base Game"))));
+		when(psn.trophies(game, account)).thenReturn(new PsnClient.Observations(List.of(trophy),
+				List.of(new PsnClient.Group("default", "Base Game", "https://example.com/group.png"))));
 		seedGuide(game);
 
 		mvc.perform(post("/api/v1/library/sync").with(user(uid))
@@ -76,6 +76,7 @@ class MigrationIntegrationTests {
 			.content("{}"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.details.trophies[0].earned").value(true))
+			.andExpect(jsonPath("$.details.trophies[0].earnedRate").value(10.5))
 			.andExpect(jsonPath("$.details.trophies[0].guideEvidence").isEmpty())
 			.andExpect(jsonPath("$.details.groups[0].name").value("Base Game"))
 			.andExpect(jsonPath("$.details.guide.matchMethod").value("automatic"))
@@ -92,6 +93,7 @@ class MigrationIntegrationTests {
 			.content("{\"refresh\":false}"))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.details.publicGameSlug").value(publicSlug))
+			.andExpect(jsonPath("$.details.groups[0].imageUrl").value("https://example.com/group.png"))
 			.andExpect(jsonPath("$.details.trophies[0].resources[0].title").value("Published tip"))
 			.andExpect(jsonPath("$.details.trophies[0].resources.length()").value(1));
 		mvc.perform(post("/api/v1/library/games/{id}", game.id()).with(user("other-" + uid))

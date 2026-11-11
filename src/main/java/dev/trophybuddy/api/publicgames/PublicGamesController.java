@@ -1,7 +1,11 @@
 package dev.trophybuddy.api.publicgames;
 
 import dev.trophybuddy.api.support.ApiFailure;
+import java.time.Duration;
 import java.util.List;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +25,12 @@ class PublicGamesController {
 
 	private final ObjectMapper json;
 
-	PublicGamesController(JdbcClient jdbc, ObjectMapper json) {
+	private final SpoilerArtwork artwork;
+
+	PublicGamesController(JdbcClient jdbc, ObjectMapper json, SpoilerArtwork artwork) {
 		this.jdbc = jdbc;
 		this.json = json;
+		this.artwork = artwork;
 	}
 
 	@GetMapping
@@ -65,12 +72,13 @@ class PublicGamesController {
 	ObjectNode detail(@PathVariable String slug) {
 		var result = jdbc.sql("""
 				SELECT jsonb_build_object('slug', e.slug, 'title', e.title, 'platform', e.platform,
-				    'coverUrl', e.cover_url, 'guide', g.content,
-				    'groups', coalesce((SELECT jsonb_agg(jsonb_build_object('id', t.group_id, 'name', t.name)
+				    'coverUrl', e.cover_url, 'mainStoryHours', e.main_story_hours, 'guide', g.content,
+				    'groups', coalesce((SELECT jsonb_agg(jsonb_build_object(
+				        'id', t.group_id, 'name', t.name, 'imageUrl', t.image_url)
 				        ORDER BY (t.group_id <> 'default'), t.group_id)
 				        FROM trophy_groups t WHERE (t.service, t.set_id) = (e.service, e.set_id)), '[]'),
 				    'trophies', coalesce((SELECT jsonb_agg(jsonb_build_object('id', t.trophy_id,
-				        'groupId', t.group_id, 'type', t.type, 'hidden', t.hidden,
+				        'groupId', t.group_id, 'type', t.type, 'hidden', t.hidden, 'earnedRate', t.global_earned_rate,
 				        'name', CASE WHEN NOT t.hidden THEN t.name END,
 				        'description', CASE WHEN NOT t.hidden THEN t.description END,
 				        'imageUrl', CASE WHEN NOT t.hidden THEN t.image_url END) ORDER BY t.trophy_id)
@@ -159,6 +167,23 @@ class PublicGamesController {
 			.optional()
 			.map(this::object)
 			.orElseThrow(PublicGamesController::missing);
+	}
+
+	@GetMapping("/{slug}/trophies/{id}/artwork-preview")
+	ResponseEntity<byte[]> artworkPreview(@PathVariable String slug, @PathVariable int id) {
+		String imageUrl = jdbc.sql("""
+				SELECT t.image_url FROM public_game_editions e JOIN trophies t USING (service, set_id)
+				WHERE e.slug = :slug AND t.trophy_id = :id AND t.hidden AND t.image_url IS NOT NULL
+				""")
+			.param("slug", slug)
+			.param("id", id)
+			.query(String.class)
+			.optional()
+			.orElseThrow(PublicGamesController::missing);
+		return ResponseEntity.ok()
+			.cacheControl(CacheControl.maxAge(Duration.ofDays(1)).cachePublic())
+			.contentType(MediaType.IMAGE_PNG)
+			.body(artwork.preview(imageUrl));
 	}
 
 	private ObjectNode object(String value) {

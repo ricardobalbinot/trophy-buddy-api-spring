@@ -37,20 +37,20 @@ class PublicGameIntegrationTests {
 
 		jdbc.sql("INSERT INTO trophy_sets VALUES ('trophy2', 'NPWR999999998_00')").update();
 		jdbc.sql("""
-				INSERT INTO trophy_groups(service, set_id, group_id, name, observed_at)
-				VALUES ('trophy2', 'NPWR999999998_00', 'default', 'Base', now())
+				INSERT INTO trophy_groups(service, set_id, group_id, name, image_url, observed_at)
+				VALUES ('trophy2', 'NPWR999999998_00', 'default', 'Base', 'https://example.com/group.png', now())
 				""").update();
 		jdbc.sql("""
 				INSERT INTO trophies(service, set_id, trophy_id, group_id, name, description, image_url, type,
-				    hidden, observed_at)
+				    hidden, global_earned_rate, observed_at)
 				VALUES ('trophy2', 'NPWR999999998_00', 7, 'default', 'Secret Title', 'Secret Description',
-				    'https://example.com/secret.png', 'silver', true, now()),
+				    'https://example.com/secret.png', 'silver', true, 4.2, now()),
 				    ('trophy2', 'NPWR999999998_00', 8, 'default', 'Visible Trophy', null,
-				    null, 'bronze', false, now())
+				    null, 'bronze', false, null, now())
 				""").update();
 		jdbc.sql("""
-				INSERT INTO public_game_editions (slug, service, set_id, title, platform)
-				VALUES ('fixture-ps5', 'trophy2', 'NPWR999999998_00', 'Public Fixture', 'PS5')
+				INSERT INTO public_game_editions (slug, service, set_id, title, platform, main_story_hours)
+				VALUES ('fixture-ps5', 'trophy2', 'NPWR999999998_00', 'Public Fixture', 'PS5', 12.5)
 				""").update();
 		jdbc.sql("""
 				INSERT INTO public_guide_revisions (slug, revision, content)
@@ -69,6 +69,7 @@ class PublicGameIntegrationTests {
 			.andExpect(jsonPath("$.games").isEmpty());
 		mvc.perform(get("/api/v1/games/fixture-ps5"))
 			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.groups[0].imageUrl").value("https://example.com/group.png"))
 			.andExpect(jsonPath("$.guide.checkpoints[0].hasSpoiler").value(true))
 			.andExpect(jsonPath("$.guide.checkpoints[0].trophyIds").doesNotExist())
 			.andExpect(jsonPath("$.guide.checkpoints[2].trophyIds[0]").value(8))
@@ -76,6 +77,9 @@ class PublicGameIntegrationTests {
 			.andExpect(jsonPath("$.guide.routes[0].playthroughs").value(1))
 			.andExpect(jsonPath("$.guide.routes[0].checkpointIds[0]").value("later"))
 			.andExpect(jsonPath("$.trophies[0].hidden").value(true))
+			.andExpect(jsonPath("$.trophies[0].earnedRate").value(4.2))
+			.andExpect(jsonPath("$.trophies[0].earned").doesNotExist())
+			.andExpect(jsonPath("$.mainStoryHours").value(12.5))
 			.andExpect(content().string(not(containsString("Secret"))))
 			.andExpect(content().string(not(containsString("secret.png"))))
 			.andExpect(content().string(not(containsString("Unrelated Spoiler"))));

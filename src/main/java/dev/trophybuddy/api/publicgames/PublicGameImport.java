@@ -24,6 +24,12 @@ import tools.jackson.databind.ObjectMapper;
 @ConditionalOnProperty("trophybuddy.public-games-file")
 class PublicGameImport implements ApplicationRunner {
 
+	private static final String MANIFEST_OPTION = "trophybuddy.public-games-file";
+
+	private static final String SLUG_OPTION = "trophybuddy.public-games-slug";
+
+	private static final String RATE_PROFILE_OPTION = "trophybuddy.public-games-rate-profile";
+
 	private static final Set<String> REQUIREMENTS = Set.of("confirmed_none", "confirmed_some", "unknown");
 
 	private final PsnClient psn;
@@ -50,30 +56,66 @@ class PublicGameImport implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		var values = args.getOptionValues("trophybuddy.public-games-file");
-		if (values == null || values.size() != 1) {
+		String manifest = singleOption(args, MANIFEST_OPTION);
+		if (manifest == null) {
 			throw new IllegalArgumentException("Provide one public game manifest");
 		}
-		try (var input = Files.newInputStream(Path.of(values.getFirst()))) {
+		String slug = singleOption(args, SLUG_OPTION);
+		String rateProfile = singleOption(args, RATE_PROFILE_OPTION);
+		if (rateProfile != null && !matches(rateProfile, "[A-Za-z][A-Za-z0-9_-]{2,15}")) {
+			throw new IllegalArgumentException("Provide one public PSN Online ID for rate lookup");
+		}
+		try (var input = Files.newInputStream(Path.of(manifest))) {
 			var entries = json.readValue(input, Edition[].class);
 			Arrays.stream(entries).forEach(PublicGameImport::validate);
-			for (var entry : entries) {
-				importEdition(entry);
-				System.out.printf("Imported public edition %s%n", entry.slug());
+			var selected = Arrays.stream(entries).filter(entry -> slug == null || slug.equals(entry.slug())).toList();
+			if (selected.isEmpty()) {
+				throw new IllegalArgumentException("No matching public edition in the manifest");
+			}
+			String rateAccount = rateProfile == null ? null : psn.resolvePublicAccount(rateProfile);
+			for (var entry : selected) {
+				importEdition(entry, rateAccount);
+				reportRateCoverage(entry);
 			}
 		}
 	}
 
+	private static String singleOption(ApplicationArguments args, String name) {
+		if (!args.containsOption(name)) {
+			return null;
+		}
+		var values = args.getOptionValues(name);
+		if (values == null || values.size() != 1 || values.getFirst().isBlank()) {
+			throw new IllegalArgumentException("Provide one value for " + name);
+		}
+		return values.getFirst();
+	}
+
+	/**
+	 * Report stored rates so a partial response does not hide earlier successful imports.
+	 */
+	private void reportRateCoverage(Edition entry) {
+		var coverage = jdbc.sql("""
+				SELECT count(global_earned_rate), count(*) FROM trophies WHERE service = :service AND set_id = :set
+				""")
+			.param("service", entry.service())
+			.param("set", entry.setId())
+			.query((row, index) -> "%d/%d".formatted(row.getLong(1), row.getLong(2)))
+			.single();
+		System.out.printf("Imported public edition %s (%s global rates stored)%n", entry.slug(), coverage);
+	}
+
 	/** Fetch outside the transaction and publish each complete edition atomically. */
-	void importEdition(Edition entry) {
+	private void importEdition(Edition entry, String rateAccount) {
+		var observations = psn.trophyDefinitions(entry.service(), entry.setId(), rateAccount);
 		String observedAt = PsnClient.timestamp();
-		var observations = psn.trophyDefinitions(entry.service(), entry.setId());
 		if (observations.trophies().isEmpty()) {
 			throw new IllegalStateException("PSN returned no trophy definitions for " + entry.slug());
 		}
 		validateTrophyReferences(entry, observations);
 		var metadata = catalog.find(entry.title(), entry.platform());
 		String cover = metadata == null ? null : metadata.path("coverUrl").asText(null);
+		var storyHours = metadata == null ? null : metadata.path("mainStoryHours");
 		transactions.executeWithoutResult(status -> {
 			jdbc.sql("INSERT INTO trophy_sets(service, set_id) VALUES (:service, :set) ON CONFLICT DO NOTHING")
 				.param("service", entry.service())
@@ -83,10 +125,11 @@ class PublicGameImport implements ApplicationRunner {
 					json.writeValueAsString(observations.trophies()), json.writeValueAsString(observations.groups()));
 			int saved = jdbc
 				.sql("""
-						INSERT INTO public_game_editions(slug, service, set_id, title, platform, cover_url)
-						VALUES (:slug, :service, :set, :title, :platform, :cover)
+						INSERT INTO public_game_editions(slug, service, set_id, title, platform, cover_url, main_story_hours)
+						VALUES (:slug, :service, :set, :title, :platform, :cover, :storyHours)
 						ON CONFLICT (slug) DO UPDATE SET title = excluded.title, platform = excluded.platform,
-						    cover_url = coalesce(excluded.cover_url, public_game_editions.cover_url)
+						    cover_url = coalesce(excluded.cover_url, public_game_editions.cover_url),
+						    main_story_hours = coalesce(excluded.main_story_hours, public_game_editions.main_story_hours)
 						WHERE (public_game_editions.service, public_game_editions.set_id) = (excluded.service, excluded.set_id)
 						""")
 				.param("slug", entry.slug())
@@ -95,6 +138,7 @@ class PublicGameImport implements ApplicationRunner {
 				.param("title", entry.title())
 				.param("platform", entry.platform())
 				.param("cover", cover)
+				.param("storyHours", storyHours != null && storyHours.isNumber() ? storyHours.asDouble() : null)
 				.update();
 			if (saved != 1) {
 				throw new IllegalArgumentException("A public slug cannot change trophy sets");

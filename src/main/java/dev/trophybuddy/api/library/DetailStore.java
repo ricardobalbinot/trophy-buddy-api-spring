@@ -46,7 +46,8 @@ class DetailStore {
 					  SELECT jsonb_agg(jsonb_build_object(
 					    'id', t.trophy_id, 'groupId', t.group_id, 'name', t.name, 'description', t.description,
 					    'imageUrl', t.image_url, 'type', t.type, 'hidden', t.hidden, 'earned', p.earned,
-					    'earnedAt', p.earned_at, 'earnedRate', p.earned_rate, 'resources', coalesce((
+					    'earnedAt', p.earned_at, 'earnedRate', coalesce(t.global_earned_rate, p.earned_rate),
+					    'resources', coalesce((
 					      SELECT jsonb_agg(jsonb_build_object('id', r.resource_id, 'title', r.title,
 					        'sourceName', r.source_name, 'sourceUrl', r.source_url, 'kind', r.kind,
 					        'language', r.language, 'containsSpoilers', r.contains_spoilers) ORDER BY r.resource_id)
@@ -63,7 +64,7 @@ class DetailStore {
 					  FROM profile_trophies p JOIN trophies t USING(service, set_id, trophy_id)
 					  WHERE p.uid = d.uid AND p.game_id = d.game_id
 					), '[]'::jsonb), 'groups', coalesce((
-					  SELECT jsonb_agg(jsonb_build_object('id', g.group_id, 'name', g.name)
+					  SELECT jsonb_agg(jsonb_build_object('id', g.group_id, 'name', g.name, 'imageUrl', g.image_url)
 					    ORDER BY (g.group_id = 'default') DESC, g.group_id)
 					  FROM detail_trophy_groups dg JOIN trophy_groups g USING(service, set_id, group_id)
 					  WHERE dg.uid = d.uid AND dg.game_id = d.game_id AND g.name IS NOT NULL

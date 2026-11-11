@@ -46,7 +46,7 @@ public class PsnClient {
 			boolean hidden, Boolean earned, String earnedAt, Double earnedRate) {
 	}
 
-	public record Group(String id, String name) {
+	public record Group(String id, String name, String imageUrl) {
 	}
 
 	public record Observations(List<Trophy> trophies, List<Group> groups) {
@@ -175,15 +175,21 @@ public class PsnClient {
 	}
 
 	public Observations trophies(Game game, String account) {
-		return trophies(service(game), game.trophySetId(), account);
+		return trophies(service(game), game.trophySetId(), account, account);
 	}
 
-	/** Fetch shared trophy definitions without reading any player's progress. */
-	public Observations trophyDefinitions(String service, String setId) {
-		return trophies(service, setId, null);
+	public String resolvePublicAccount(String onlineId) {
+		return resolveAccount(sessions.get(), onlineId);
 	}
 
-	private Observations trophies(String service, String setId, String account) {
+	/**
+	 * Fetch shared definitions and PSN-wide rates without retaining individual progress.
+	 */
+	public Observations trophyDefinitions(String service, String setId, String rateAccount) {
+		return trophies(service, setId, null, rateAccount);
+	}
+
+	private Observations trophies(String service, String setId, String account, String rateAccount) {
 		var token = sessions.get();
 		var params = Map.of("npServiceName", service);
 		String suffix = "/npCommunicationIds/" + setId + "/trophyGroups";
@@ -192,11 +198,12 @@ public class PsnClient {
 		Map<Integer, JsonNode> earnings = new HashMap<>();
 		List<Group> groups = new ArrayList<>();
 		try {
-			if (account != null) {
-				for (var item : pages(token, "trophy/v1/users/" + account + suffix + "/all/trophies", "trophies",
-						params)) {
-					earnings.put(item.path("trophyId").asInt(-1), item);
-				}
+			// The account endpoint also carries the global rate. Public imports never
+			// retain its progress.
+			String statsAccount = rateAccount == null ? "me" : rateAccount;
+			for (var item : pages(token, "trophy/v1/users/" + statsAccount + suffix + "/all/trophies", "trophies",
+					params)) {
+				earnings.put(item.path("trophyId").asInt(-1), item);
 			}
 		}
 		catch (ApiFailure ignored) {
@@ -204,7 +211,8 @@ public class PsnClient {
 		}
 		try {
 			for (var item : request(token, publicPath, params, null).path("trophyGroups")) {
-				groups.add(new Group(required(item, "trophyGroupId"), required(item, "trophyGroupName")));
+				groups.add(new Group(required(item, "trophyGroupId"), required(item, "trophyGroupName"),
+						artwork(item.path("trophyGroupIconUrl").asText(""))));
 			}
 		}
 		catch (ApiFailure ignored) {
@@ -219,15 +227,16 @@ public class PsnClient {
 				throw new ApiFailure("invalid_psn_trophy");
 			}
 			var entry = earnings.get(id);
-			var flag = entry == null ? null : entry.path("earned");
+			var flag = account == null || entry == null ? null : entry.path("earned");
 			Boolean earned = flag != null && flag.isBoolean() ? flag.asBoolean() : null;
 			var earnedAt = Boolean.TRUE.equals(earned) ? date(text(entry, "earnedDateTime")) : null;
 			String group = row.path("trophyGroupId").asText("default");
+			Double globalRate = entry == null ? null : rate(entry.path("trophyEarnedRate").asText(""));
 			trophies.add(new Trophy(id, group.isBlank() ? "default" : group, text(row, "trophyName"),
 					text(row, "trophyDetail"), artwork(row.path("trophyIconUrl").asText("")), grade,
 					row.path("trophyHidden").isBoolean() && row.path("trophyHidden").asBoolean(), earned,
 					earnedAt == null ? null : earnedAt.truncatedTo(ChronoUnit.MILLIS).toString(),
-					entry == null ? null : rate(entry.path("trophyEarnedRate").asText(""))));
+					globalRate == null ? rate(row.path("trophyEarnedRate").asText("")) : globalRate));
 		}
 		return new Observations(trophies, groups);
 	}
