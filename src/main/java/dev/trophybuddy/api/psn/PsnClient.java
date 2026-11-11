@@ -175,16 +175,28 @@ public class PsnClient {
 	}
 
 	public Observations trophies(Game game, String account) {
+		return trophies(service(game), game.trophySetId(), account);
+	}
+
+	/** Fetch shared trophy definitions without reading any player's progress. */
+	public Observations trophyDefinitions(String service, String setId) {
+		return trophies(service, setId, null);
+	}
+
+	private Observations trophies(String service, String setId, String account) {
 		var token = sessions.get();
-		var params = Map.of("npServiceName", service(game));
-		String suffix = "/npCommunicationIds/" + game.trophySetId() + "/trophyGroups";
+		var params = Map.of("npServiceName", service);
+		String suffix = "/npCommunicationIds/" + setId + "/trophyGroups";
 		String publicPath = "trophy/v1" + suffix;
 		var definitions = pages(token, publicPath + "/all/trophies", "trophies", params);
 		Map<Integer, JsonNode> earnings = new HashMap<>();
 		List<Group> groups = new ArrayList<>();
 		try {
-			for (var item : pages(token, "trophy/v1/users/" + account + suffix + "/all/trophies", "trophies", params)) {
-				earnings.put(item.path("trophyId").asInt(-1), item);
+			if (account != null) {
+				for (var item : pages(token, "trophy/v1/users/" + account + suffix + "/all/trophies", "trophies",
+						params)) {
+					earnings.put(item.path("trophyId").asInt(-1), item);
+				}
 			}
 		}
 		catch (ApiFailure ignored) {

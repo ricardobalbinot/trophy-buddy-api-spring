@@ -22,17 +22,27 @@ class DetailStore {
 
 	private final GuideDiscovery guides;
 
-	DetailStore(JdbcClient jdbc, ObjectMapper json, OperationLeases leases, GuideDiscovery guides) {
+	private final TrophyDefinitionStore definitions;
+
+	DetailStore(JdbcClient jdbc, ObjectMapper json, OperationLeases leases, GuideDiscovery guides,
+			TrophyDefinitionStore definitions) {
 		this.jdbc = jdbc;
 		this.json = json;
 		this.leases = leases;
 		this.guides = guides;
+		this.definitions = definitions;
 	}
 
 	ObjectNode find(String uid, String id) {
 		return jdbc
 			.sql("""
-					SELECT (d.payload || jsonb_build_object('trophies', coalesce((
+					SELECT (d.payload || jsonb_build_object('publicGameSlug', (
+					  SELECT e.slug FROM public_game_editions e
+					  WHERE e.set_id = d.payload #>> '{game,trophySetId}'
+					    AND e.service = coalesce(d.payload #>> '{game,trophyService}',
+					      CASE WHEN 'PS5' = ANY(string_to_array(d.payload #>> '{game,platform}', ','))
+					        THEN 'trophy2' ELSE 'trophy' END)
+					), 'trophies', coalesce((
 					  SELECT jsonb_agg(jsonb_build_object(
 					    'id', t.trophy_id, 'groupId', t.group_id, 'name', t.name, 'description', t.description,
 					    'imageUrl', t.image_url, 'type', t.type, 'hidden', t.hidden, 'earned', p.earned,
@@ -103,7 +113,7 @@ class DetailStore {
 			.param("service", service)
 			.param("set", set)
 			.update();
-		saveDefinitions(service, set, date, trophies, groups);
+		definitions.save(service, set, date, trophies, groups);
 		jdbc.sql("""
 				INSERT INTO detail_trophy_groups(uid, game_id, group_id, service, set_id)
 				SELECT :uid, :id, g.id, :service, :set
@@ -133,45 +143,6 @@ class DetailStore {
 		ObjectNode saved = find(uid, game.id());
 		guides.attach(game, saved);
 		return saved;
-	}
-
-	private void saveDefinitions(String service, String set, String date, String trophies, String groups) {
-		jdbc.sql(
-				"""
-						WITH known AS (SELECT id, name FROM jsonb_to_recordset(CAST(:groups AS jsonb)) AS g(id text, name text)),
-						observed AS (SELECT DISTINCT "groupId" AS id
-						    FROM jsonb_to_recordset(CAST(:trophies AS jsonb)) AS t("groupId" text))
-						INSERT INTO trophy_groups(service, set_id, group_id, name, observed_at)
-						SELECT :service, :set, id, known.name, CAST(:date AS timestamptz)
-						FROM known FULL JOIN observed USING(id) ORDER BY id
-						ON CONFLICT(service, set_id, group_id) DO UPDATE SET name = excluded.name,
-						    observed_at = excluded.observed_at
-						WHERE trophy_groups.observed_at <= excluded.observed_at AND excluded.name IS NOT NULL
-						""")
-			.param("service", service)
-			.param("set", set)
-			.param("date", date)
-			.param("groups", groups)
-			.param("trophies", trophies)
-			.update();
-		jdbc.sql("""
-				INSERT INTO trophies(service, set_id, trophy_id, group_id, name, description, image_url,
-				    type, hidden, observed_at)
-				SELECT :service, :set, id, "groupId", name, description, "imageUrl", type, hidden,
-				    CAST(:date AS timestamptz)
-				FROM jsonb_to_recordset(CAST(:trophies AS jsonb)) AS t(
-				    id int, "groupId" text, name text, description text, "imageUrl" text, type text, hidden boolean)
-				ORDER BY id
-				ON CONFLICT(service, set_id, trophy_id) DO UPDATE SET group_id = excluded.group_id,
-				    name = excluded.name, description = excluded.description, image_url = excluded.image_url,
-				    type = excluded.type, hidden = excluded.hidden, observed_at = excluded.observed_at
-				WHERE trophies.observed_at <= excluded.observed_at
-				""")
-			.param("service", service)
-			.param("set", set)
-			.param("date", date)
-			.param("trophies", trophies)
-			.update();
 	}
 
 	private void fenceLibrary(String uid, LibrarySnapshot snapshot) {

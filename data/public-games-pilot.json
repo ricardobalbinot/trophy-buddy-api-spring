@@ -1,0 +1,475 @@
+[
+  {
+    "slug": "persona-5-royal-ps5",
+    "service": "trophy2",
+    "setId": "NPWR25017_00",
+    "title": "Persona 5 Royal",
+    "platform": "PS5",
+    "guide": {
+      "revision": 5,
+      "difficulty": 2,
+      "hoursMin": 100,
+      "hoursMax": null,
+      "playthroughs": 1,
+      "missables": "confirmed_some",
+      "online": "confirmed_none",
+      "preparation": [
+        "Alterne entre dois ou mais arquivos de save. Preserve um save anterior aos principais prazos do calendário.",
+        "Priorize os vínculos ligados a prazos. Deixe tarefas de rotina para dias com mais folga.",
+        "Reserve tempo para os pedidos e atividades paralelas enquanto elas ainda estiverem acessíveis."
+      ],
+      "sources": [
+        {"id": "pst", "name": "PlayStationTrophies", "url": "https://www.playstationtrophies.org/game/persona-5-royal-na-v3/print-guide/"},
+        {"id": "psnp", "name": "PSNProfiles", "url": "https://psnprofiles.com/guide/9920-persona-5-royal-trophy-guide"}
+      ],
+      "checkpoints": [
+        {
+          "id": "calendar-deadline",
+          "title": "Garanta acesso ao conteúdo extra da edição Royal",
+          "action": "Priorize o vínculo com prazo ligado ao semestre extra e guarde um save antes de novembro.",
+          "critical": true,
+          "spoiler": "Suba o vínculo do Conselheiro, Takuto Maruki, ao nível 9 até 17 de novembro. O nível 10 vem automaticamente se você cumprir o prazo.",
+          "trophyIds": [9, 19],
+          "sourceIds": ["pst", "psnp"]
+        },
+        {
+          "id": "school-and-bonds",
+          "title": "Comece cedo as atividades que exigem vários dias",
+          "action": "Distribua o tempo livre entre atributos sociais e vínculos. Alterne atividades que aumentam atributos e priorize um aliado para fortalecer o vínculo até o máximo.",
+          "critical": false,
+          "spoiler": "Conhecimento alto ajuda na colocação dos exames. Maximize o vínculo de um aliado para poder evoluir a Persona dele na parte extra de Royal.",
+          "trophyIds": [14, 15, 18, 19],
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "velvet-room",
+          "title": "Experimente as opções de fusão conforme forem abertas",
+          "action": "Na Sala de Veludo, faça uma fusão normal e volte quando novos métodos estiverem disponíveis. Use os métodos de fortalecimento e de criação de itens ao menos uma vez.",
+          "critical": false,
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "treasure-demon",
+          "title": "Deixe uma vaga para a próxima captura",
+          "action": "Antes de capturar um Demônio do Tesouro, deixe uma vaga livre na sua lista de Personas. Tente a captura assim que tiver uma oportunidade.",
+          "critical": false,
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "mementos",
+          "title": "Aproveite as visitas a Mementos para coletar selos",
+          "action": "Combine pedidos com a coleta de selos na mesma visita. Concentre seus selos em uma única melhoria para atingir seu nível máximo mais cedo.",
+          "critical": false,
+          "spoiler": "Troque um selo com José para iniciar as melhorias. Se a prioridade for o troféu, a categoria de itens é a mais barata para maximizar.",
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "ending-decisions",
+          "title": "Preserve um save antes das decisões finais",
+          "action": "Mantenha um save separado quando o jogo oferecer um acordo que encerra a campanha. Escolha continuar a rota que libera o conteúdo da edição Royal.",
+          "critical": true,
+          "spoiler": "Recuse os acordos que encerram a história antes do terceiro semestre e rejeite a realidade proposta por Maruki durante o semestre extra.",
+          "trophyIds": [9, 10, 19],
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "cleanup",
+          "title": "Revise as atividades opcionais antes do fim",
+          "action": "Use a lista de troféus para conferir atividades de rotina e pedidos restantes. Faça a limpeza enquanto os locais e personagens ainda estiverem acessíveis.",
+          "critical": false,
+          "sourceIds": ["pst"]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "phoenix-wright-ace-attorney-trilogy-ps4",
+    "service": "trophy",
+    "setId": "NPWR15169_00",
+    "title": "Phoenix Wright: Ace Attorney Trilogy",
+    "platform": "PS4",
+    "guide": {
+      "revision": 5,
+      "difficulty": 2,
+      "hoursMin": 40,
+      "hoursMax": 50,
+      "playthroughs": 1,
+      "missables": "confirmed_none",
+      "online": "confirmed_none",
+      "preparation": [
+        "Jogue os casos na ordem da coletânea para acompanhar a história.",
+        "Alguns troféus podem passar batido durante um caso, como o das escadas. A seleção de capítulos permite recuperar as interações sem recomeçar a campanha.",
+        "A estimativa de tempo considera ler a história no ritmo normal, sem seguir um passo a passo."
+      ],
+      "sources": [
+        {"id": "pst", "name": "PlayStationTrophies", "url": "https://www.playstationtrophies.org/game/phoenix-wright-ace-attorney-trilogy/guide/"},
+        {"id": "ladders", "name": "PlayStationTrophies · Escadas", "url": "https://www.playstationtrophies.org/game/phoenix-wright-ace-attorney-trilogy/trophy/252748-ladders-vs-step-ladders.html"},
+        {"id": "psnp", "name": "PSNProfiles", "url": "https://psnprofiles.com/guide/8574-phoenix-wright-ace-attorney-trilogy-trophy-guide"}
+      ],
+      "checkpoints": [
+        {
+          "id": "story",
+          "title": "Complete os casos dos três jogos",
+          "action": "Avance pela história e deixe as interações opcionais para uma segunda visita à cena, se preferir jogar sem dicas.",
+          "critical": false,
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "optional-interactions",
+          "title": "Anote interações que queira revisitar",
+          "action": "Alguns troféus pedem examinar objetos ou escolher falas opcionais. Anote o episódio para voltar pela seleção de capítulos.",
+          "critical": false,
+          "spoiler": "O troféu das escadas exige cinco conversas. Se perder uma, volte ao caso pela seleção de capítulos e acione só a conversa que faltou. No último caso do terceiro jogo, examine a escada do pátio após receber o detector de metais. Examinar antes disso não conta.",
+          "trophyIds": [28],
+          "sourceIds": ["pst", "ladders", "psnp"]
+        },
+        {
+          "id": "lunchboxes",
+          "title": "Use um save separado para testar respostas opcionais",
+          "action": "Em investigações com muitas interações opcionais, guarde um save antes do interrogatório. Algumas respostas alternativas revelam interações que você não vê pela rota mais direta.",
+          "critical": false,
+          "spoiler": "Em Rise from the Ashes, mostre o distintivo a Angel Starr no primeiro encontro. No primeiro julgamento, explore as respostas alternativas em seus depoimentos para registrar as marmitas opcionais.",
+          "trophyIds": [29],
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "alternate-outcome",
+          "title": "Guarde um save para explorar um final alternativo",
+          "action": "Separe um save no último julgamento do segundo jogo. Isso poupa tempo se você quiser ver o outro desfecho depois.",
+          "critical": false,
+          "spoiler": "No julgamento final do quarto caso de Justice for All, aceite o desfecho desfavorável. Recarregue o save e conclua o caso pela rota normal.",
+          "trophyIds": [27],
+          "sourceIds": ["pst"]
+        },
+        {
+          "id": "cleanup",
+          "title": "Volte apenas às cenas que faltam",
+          "action": "Use os títulos e descrições dos troféus para localizar as interações pendentes e reabra os capítulos correspondentes.",
+          "critical": false,
+          "sourceIds": ["pst"]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "astro-bot-ps5",
+    "service": "trophy2",
+    "setId": "NPWR24170_00",
+    "title": "ASTRO BOT",
+    "platform": "PS5",
+    "guide": {
+      "revision": 1,
+      "difficulty": 3,
+      "hoursMin": 15,
+      "hoursMax": 15,
+      "playthroughs": 1,
+      "missables": "confirmed_none",
+      "online": "confirmed_none",
+      "preparation": [],
+      "checkpoints": [],
+      "sources": [
+        {"id": "powerpyx", "name": "PowerPyx", "url": "https://www.powerpyx.com/astro-bot-trophy-guide-roadmap/"},
+        {"id": "psnp", "name": "PSNProfiles", "url": "https://psnprofiles.com/guide/20437"}
+      ]
+    }
+  },
+  {
+    "slug": "lies-of-p-ps5",
+    "service": "trophy2",
+    "setId": "NPWR36570_00",
+    "title": "Lies of P",
+    "platform": "PS5",
+    "guide": {
+      "revision": 2,
+      "difficulty": null,
+      "hoursMin": null,
+      "hoursMax": null,
+      "playthroughs": 2,
+      "missables": "confirmed_some",
+      "online": "confirmed_none",
+      "firstPlaythroughNote": "Se quiser descobrir a história sem dicas, termine uma vez no seu ritmo. Mantenha um save antes de iniciar o New Game+. Dependendo dos finais e discos que faltarem, pode ser preciso um ciclo extra.",
+      "preparation": [
+        "A dificuldade escolhida não bloqueia troféus. Planeje os finais e os discos, que são o que determina o número de jogadas.",
+        "Mantenha as jogadas no mesmo arquivo de progresso para carregar os discos e as armas para o New Game+."
+      ],
+      "sources": [
+        {
+          "id": "roadmap",
+          "name": "PowerPyx · Rota da platina",
+          "url": "https://www.powerpyx.com/lies-of-p-trophy-guide-roadmap/"
+        },
+        {
+          "id": "records",
+          "name": "PowerPyx · Localização dos discos",
+          "url": "https://www.powerpyx.com/lies-of-p-all-record-locations/"
+        },
+        {
+          "id": "endings",
+          "name": "PowerPyx · Requisitos dos finais",
+          "url": "https://www.powerpyx.com/lies-of-p-all-endings-guide/"
+        }
+      ],
+      "checkpoints": [
+        {
+          "id": "first-journey",
+          "title": "Primeira jogada · Ganhe humanidade e recolha os discos",
+          "action": "Faça as missões paralelas enquanto estiver nas áreas correspondentes. Ouça os discos no hotel e preserve os Ergos raros de chefes para trocá-los por armas especiais.",
+          "trophyIds": [13, 11],
+          "critical": true,
+          "sourceIds": [
+            "roadmap",
+            "records"
+          ]
+        },
+        {
+          "id": "save-branches",
+          "trophyIds": [1, 2, 3, 40, 42, 9],
+          "title": "Primeira jogada · Reserve os saves para os finais",
+          "action": "Na rota combinada, confirme que consegue restaurar o save na nuvem antes das decisões finais. No PS5, o backup na nuvem exige PlayStation Plus. Controle a sincronização automática para preservar cada ponto.",
+          "critical": true,
+          "spoiler": "Faça um backup antes da escolha sobre Sophia. Deixe-a viver e recuse entregar o coração para um dos finais. Restaure a cópia, conceda paz a Sophia com humanidade alta e faça outro backup antes da decisão com Geppetto. Entregue o coração primeiro. Depois dos créditos, volte ao hotel, leia a carta do pai e toque o piano antes de restaurar. Por último, recuse o pedido e preserve o progresso do final Rise of P para o New Game+.",
+          "sourceIds": [
+            "roadmap",
+            "endings"
+          ]
+        },
+        {
+          "id": "first-ending",
+          "trophyIds": [3, 42, 11],
+          "title": "Primeira jogada · Feche um final e faça a limpeza",
+          "action": "Com humanidade alta, siga o caminho para o final que também libera uma arma especial. Confira as interações do hotel antes de avançar para o próximo ciclo.",
+          "critical": true,
+          "spoiler": "Conceda paz a Sophia e recuse entregar o coração a Geppetto. Depois dos créditos, volte ao hotel para ler a carta da Borboleta Azul. Confira a arma no retrato e troque o Ergo do chefe final pela arma correspondente.",
+          "sourceIds": [
+            "roadmap",
+            "endings"
+          ]
+        },
+        {
+          "id": "before-next-cycle",
+          "trophyIds": [13, 11],
+          "title": "Antes do New Game+ · Volte ao hotel",
+          "action": "Depois dos créditos, fique no ciclo atual para concluir as interações de pós-final e as trocas de armas que faltam. Consulte a referência de discos e confira a recompensa da missão de Eugénie antes de avançar.",
+          "critical": true,
+          "sourceIds": [
+            "roadmap",
+            "records",
+            "endings"
+          ]
+        },
+        {
+          "id": "second-records",
+          "trophyIds": [13],
+          "title": "New Game+ · Complete a coleção de discos",
+          "action": "Compre os discos dourados dos comerciantes e faça a outra escolha da missão de Eugénie para receber o disco que faltou. Confira a coleção antes de encerrar o ciclo.",
+          "critical": true,
+          "sourceIds": [
+            "records",
+            "roadmap"
+          ]
+        },
+        {
+          "id": "second-ending",
+          "trophyIds": [2],
+          "title": "Segunda jogada · Escolha um final diferente",
+          "action": "Use o New Game+ para pegar os discos e terminar a campanha por uma rota diferente da primeira.",
+          "critical": false,
+          "spoiler": "Deixe Sophia viver e recuse entregar o coração a Geppetto para seguir a rota de Free from the Puppet String.",
+          "sourceIds": [
+            "endings"
+          ]
+        },
+        {
+          "id": "third-ending",
+          "trophyIds": [1, 40],
+          "title": "Terceira jogada · Feche o final restante",
+          "action": "Com dois finais registrados, use o próximo ciclo para seguir só as etapas necessárias ao último desfecho.",
+          "critical": false,
+          "spoiler": "Se seguiu os dois finais sugeridos nas primeiras jogadas, aceite o pedido de Geppetto. Depois dos créditos, volte ao hotel e leia a carta no escritório.",
+          "sourceIds": [
+            "endings",
+            "roadmap"
+          ]
+        }
+      ],
+      "routes": [
+        {
+          "id": "separate",
+          "title": "Finais separados",
+          "playthroughs": 3,
+          "description": "Faça um final por campanha e mantenha o mesmo arquivo de progresso para os discos. Essa rota dispensa restaurar saves.",
+          "checkpointIds": [
+            "first-journey",
+            "first-ending",
+            "before-next-cycle",
+            "second-records",
+            "second-ending",
+            "third-ending"
+          ]
+        },
+        {
+          "id": "combined",
+          "title": "Rota combinada",
+          "playthroughs": 2,
+          "description": "Combine os finais na primeira campanha com backups e avance no New Game+ até completar os discos exclusivos. Essa segunda passagem continua necessária.",
+          "checkpointIds": [
+            "first-journey",
+            "save-branches",
+            "before-next-cycle",
+            "second-records"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "slug": "uncharted-4-ps4",
+    "service": "trophy",
+    "setId": "NPWR07028_00",
+    "title": "Uncharted 4: A Thief’s End",
+    "platform": "PS4",
+    "guide": {
+      "revision": 2,
+      "difficulty": 5,
+      "hoursMin": null,
+      "hoursMax": null,
+      "playthroughs": 2,
+      "missables": "confirmed_some",
+      "online": "confirmed_some",
+      "firstPlaythroughNote": "Se preferir explorar no seu ritmo, jogue a história uma vez sem consultar o guia. Depois você pode recuperar colecionáveis pela seleção de capítulos. A dificuldade e o speedrun ainda podem exigir outras jogadas.",
+      "preparation": [
+        "A rota cobre a platina da edição original de PS4. Reserve tempo para os troféus do multijogador do jogo base.",
+        "Use o guia de colecionáveis por capítulo para acompanhar tesouros, anotações e conversas. Você pode recuperar itens pela seleção de capítulos."
+      ],
+      "sources": [
+        {
+          "id": "roadmap",
+          "name": "PowerPyx · Rota da platina",
+          "url": "https://www.playstationtrophies.org/forum/topic/270494-uncharted-4-a-thiefs-end-trophy-guide-roadmap/"
+        },
+        {
+          "id": "crushing-speedrun-guide",
+          "name": "PlayStationTrophies · Speedrun em Demolidor",
+          "url": "https://www.playstationtrophies.org/forum/topic/280249-uncharted-4-~-trophy-speedrun-guide/"
+        },
+        {
+          "id": "collectibles",
+          "name": "PowerPyx · 193 colecionáveis",
+          "url": "https://www.powerpyx.com/guide/uncharted-4-all-collectibles-locations-guide-treasures-conversations-journal-entries-notes.html"
+        },
+        {
+          "id": "video",
+          "name": "PowerPyx · Vídeo dos colecionáveis",
+          "url": "https://www.youtube.com/watch?v=8_Crp9MXS7A"
+        }
+      ],
+      "checkpoints": [
+        {
+          "id": "exploration",
+          "trophyIds": [9, 12, 14],
+          "title": "Primeira jogada · Explore e recolha os colecionáveis",
+          "action": "Comece numa dificuldade confortável e use o guia por capítulo. Confira as conversas opcionais antes de sair de cada área.",
+          "critical": false,
+          "sourceIds": [
+            "collectibles",
+            "video"
+          ]
+        },
+        {
+          "id": "crushing",
+          "trophyIds": [5],
+          "title": "Segunda jogada · Termine em Demolidor",
+          "action": "Faça todos os capítulos em Demolidor (Crushing). Use o conhecimento dos encontros e os bônus liberados na primeira jogada para avançar.",
+          "critical": true,
+          "sourceIds": [
+            "roadmap"
+          ]
+        },
+        {
+          "id": "crushing-speedrun",
+          "trophyIds": [5, 6],
+          "title": "Segunda jogada · Faça o speedrun em Demolidor",
+          "action": "Depois de coletar tudo na primeira jogada, use os bônus desbloqueados para encarar Demolidor e o limite de seis horas juntos. Se passar do tempo, termine em Demolidor e reserve outra jogada em Explorador só para o tempo.",
+          "critical": true,
+          "sourceIds": ["roadmap", "crushing-speedrun-guide"]
+        },
+        {
+          "id": "crushing-and-collectibles",
+          "trophyIds": [5, 9, 12, 14],
+          "title": "Primeira jogada · Combine Demolidor e colecionáveis",
+          "action": "Escolha Demolidor (Crushing) desde o início. Explore com calma entre os combates e acompanhe os 193 colecionáveis pelo guia de texto ou de vídeo.",
+          "critical": true,
+          "sourceIds": [
+            "roadmap",
+            "collectibles",
+            "video"
+          ]
+        },
+        {
+          "id": "speedrun",
+          "trophyIds": [6, 24],
+          "title": "Campanha cronometrada · Termine em até seis horas",
+          "action": "Reserve uma jogada em Explorador para o troféu de tempo. Pule as cenas quando possível e deixe os desvios de colecionáveis para outro momento. Se quiser combinar a precisão com esta jogada, acompanhe a estatística de acertos.",
+          "critical": true,
+          "sourceIds": [
+            "roadmap"
+          ]
+        },
+        {
+          "id": "chapter-cleanup",
+          "title": "Limpeza · Reabra capítulos e encontros",
+          "action": "Use a seleção de capítulos para recuperar itens e a seleção de encontros para os objetivos de combate restantes.",
+          "critical": false,
+          "sourceIds": [
+            "roadmap",
+            "collectibles"
+          ]
+        },
+        {
+          "id": "multiplayer",
+          "trophyIds": [51, 52, 53, 54, 55],
+          "title": "Multijogador · Complete os objetivos do jogo base",
+          "action": "Separe uma sessão para a introdução, partidas, desafios e assistências a aliados. Esses objetivos ficam fora das jogadas de campanha.",
+          "critical": false,
+          "sourceIds": [
+            "roadmap"
+          ]
+        }
+      ],
+      "routes": [
+        {
+          "id": "separate",
+          "title": "Objetivos separados",
+          "playthroughs": 3,
+          "description": "Explore numa dificuldade confortável, termine em Demolidor na segunda campanha e deixe a tentativa cronometrada para uma terceira.",
+          "checkpointIds": [
+            "exploration",
+            "crushing",
+            "speedrun",
+            "chapter-cleanup",
+            "multiplayer"
+          ]
+        },
+        {
+          "id": "collectibles-first",
+          "title": "Colecionáveis primeiro",
+          "playthroughs": 2,
+          "description": "Explore numa dificuldade confortável. Na segunda campanha, combine Demolidor com o limite de seis horas usando os bônus desbloqueados.",
+          "checkpointIds": ["exploration", "crushing-speedrun", "chapter-cleanup", "multiplayer"]
+        },
+        {
+          "id": "combined",
+          "title": "Rota combinada",
+          "playthroughs": 2,
+          "description": "Faça Demolidor e os colecionáveis na mesma campanha. Reserve a segunda para terminar em até seis horas.",
+          "checkpointIds": [
+            "crushing-and-collectibles",
+            "speedrun",
+            "chapter-cleanup",
+            "multiplayer"
+          ]
+        }
+      ]
+    }
+  }
+]

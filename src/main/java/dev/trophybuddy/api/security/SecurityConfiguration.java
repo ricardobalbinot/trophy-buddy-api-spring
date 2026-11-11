@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -47,6 +48,8 @@ class SecurityConfiguration {
 			.authorizeHttpRequests(config -> config
 				.requestMatchers("/healthz", "/readyz", "/actuator/health", "/api/v1/catalog", "/docs", "/openapi.json",
 						"/openapi.json/**", "/swagger-ui/**")
+				.permitAll()
+				.requestMatchers(HttpMethod.GET, "/api/v1/games", "/api/v1/games/**")
 				.permitAll()
 				.anyRequest()
 				.authenticated())

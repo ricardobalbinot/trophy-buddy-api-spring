@@ -82,10 +82,16 @@ class MigrationIntegrationTests {
 			.andExpect(jsonPath("$.details.guideAnalysis").value("blocked"));
 
 		seedResource(set);
+		String publicSlug = "migration-test-" + account;
+		jdbc.sql("""
+				INSERT INTO public_game_editions(slug, service, set_id, title, platform)
+				VALUES (:slug, 'trophy2', :set, :title, 'PS5')
+				""").param("slug", publicSlug).param("set", set).param("title", game.title()).update();
 		mvc.perform(post("/api/v1/library/games/{id}", game.id()).with(user(uid))
 			.contentType(MediaType.APPLICATION_JSON)
 			.content("{\"refresh\":false}"))
 			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.details.publicGameSlug").value(publicSlug))
 			.andExpect(jsonPath("$.details.trophies[0].resources[0].title").value("Published tip"))
 			.andExpect(jsonPath("$.details.trophies[0].resources.length()").value(1));
 		mvc.perform(post("/api/v1/library/games/{id}", game.id()).with(user("other-" + uid))
