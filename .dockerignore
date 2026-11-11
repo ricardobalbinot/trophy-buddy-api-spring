@@ -8,3 +8,5 @@
 !config/**
 !src/
 !src/**
+!data/
+!data/public-games-pilot.json
