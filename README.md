@@ -87,7 +87,7 @@ Use `bind` with `--service`, `--set-id`, `--entry-id`, and `--rationale`. Use `a
 
 ## Public game catalogue
 
-Apply Flyway V3 before importing editions. The pilot manifest in `data/public-games-pilot.json` includes five editions, with alternative playthrough routes for Lies of P and Uncharted 4. With the API's database and PSN service credentials configured, run:
+Apply the Flyway migrations before importing editions. The pilot manifest in `data/public-games-pilot.json` includes five editions, with alternative playthrough routes for Lies of P and Uncharted 4. With the API's database and PSN service credentials configured, run:
 
 ```sh
 java -jar target/trophy-buddy-api-spring-0.0.1-SNAPSHOT.jar \
@@ -98,5 +98,7 @@ java -jar target/trophy-buddy-api-spring-0.0.1-SNAPSHOT.jar \
 The same command accepts any manifest with verified Sony trophy set IDs. Each edition is saved atomically after its trophy definitions are fetched. Reimporting the same guide revision is safe. Increment the revision to publish a content change. The public API serves persisted data and loads concealed trophy or checkpoint details individually. Use an already baselined database or a fresh database for the import.
 
 To publish the pilot from a deployed container, run `java -jar /app/trophy-buddy-api.jar --spring.main.web-application-type=none --trophybuddy.public-games-file=/app/data/public-games-pilot.json` after the database is ready.
+
+The import reports how many trophies in each edition have a stored global rate. PSN may only return these rates for a profile that has synced the exact edition. To fill a gap, reimport with `--trophybuddy.public-games-slug=<edition-slug>` and `--trophybuddy.public-games-rate-profile=<public-online-id>` using a profile that has played it. The import stores the global rates alongside the trophy definitions and discards individual earnings.
 
 When a checkpoint covers specific trophies, add their PlayStation IDs in `trophyIds` so the reader can show the official names and grades for that edition. For checkpoints with spoiler details, those references appear with the revealed content. Use `firstPlaythroughNote` when a guide should suggest experiencing the story at the player's own pace. The note is independent of the route estimates.
