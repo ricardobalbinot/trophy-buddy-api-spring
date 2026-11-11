@@ -58,6 +58,8 @@ On Windows, use `.\mvnw.cmd spring-boot:run`. Open [Swagger UI](http://localhost
 | `POST /api/v1/library/sync` | Import a public PSN profile by `onlineId` |
 | `POST /api/v1/library/games/{game_id}` | Read trophy progress, catalogue data, and available guides |
 | `GET /api/v1/catalog` | Look up public game metadata |
+| `GET /api/v1/games` | Browse published PlayStation editions by title, platform, and guide coverage |
+| `GET /api/v1/games/{slug}` | Read the trophy list and the published guide overview |
 
 Library routes require a Firebase ID token as a bearer credential. The API derives the storage UID from the verified token.
 
@@ -82,3 +84,19 @@ java -jar target/trophy-buddy-api-spring-0.0.1-SNAPSHOT.jar --trophybuddy.guide-
 Use `bind` with `--service`, `--set-id`, `--entry-id`, and `--rationale`. Use `add-resource` with `--service`, `--set-id`, `--trophy-id`, `--title`, `--source-name`, `--url`, `--kind`, and `--language`. Resources start as drafts. Use `--publish` after review and `--spoiler-safe` for resources that can be shown without a spoiler warning.
 
 [Guide evidence operations](docs/guide-evidence.md) covers importing source-attributed trophy conditions and applying the required database migration.
+
+## Public game catalogue
+
+Apply Flyway V3 before importing editions. The pilot manifest in `data/public-games-pilot.json` includes five editions, with alternative playthrough routes for Lies of P and Uncharted 4. With the API's database and PSN service credentials configured, run:
+
+```sh
+java -jar target/trophy-buddy-api-spring-0.0.1-SNAPSHOT.jar \
+  --spring.main.web-application-type=none --spring.flyway.enabled=true \
+  --trophybuddy.public-games-file=data/public-games-pilot.json
+```
+
+The same command accepts any manifest with verified Sony trophy set IDs. Each edition is saved atomically after its trophy definitions are fetched. Reimporting the same guide revision is safe. Increment the revision to publish a content change. The public API serves persisted data and loads concealed trophy or checkpoint details individually. Use an already baselined database or a fresh database for the import.
+
+To publish the pilot from a deployed container, run `java -jar /app/trophy-buddy-api.jar --spring.main.web-application-type=none --trophybuddy.public-games-file=/app/data/public-games-pilot.json` after the database is ready.
+
+When a checkpoint covers specific trophies, add their PlayStation IDs in `trophyIds` so the reader can show the official names and grades for that edition. For checkpoints with spoiler details, those references appear with the revealed content. Use `firstPlaythroughNote` when a guide should suggest experiencing the story at the player's own pace. The note is independent of the route estimates.
