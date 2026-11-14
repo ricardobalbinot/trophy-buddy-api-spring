@@ -65,8 +65,8 @@ class PublicGamesController {
 	}
 
 	/**
-	 * Return only the spoiler-safe projection, including for anonymous clients and
-	 * crawlers.
+	 * Withhold hidden trophy text and checkpoint details. Trophy tiles blur the artwork
+	 * until reveal and reuse the same image afterward.
 	 */
 	@GetMapping("/{slug}")
 	ObjectNode detail(@PathVariable String slug) {
@@ -81,7 +81,7 @@ class PublicGamesController {
 				        'groupId', t.group_id, 'type', t.type, 'hidden', t.hidden, 'earnedRate', t.global_earned_rate,
 				        'name', CASE WHEN NOT t.hidden THEN t.name END,
 				        'description', CASE WHEN NOT t.hidden THEN t.description END,
-				        'imageUrl', CASE WHEN NOT t.hidden THEN t.image_url END) ORDER BY t.trophy_id)
+				        'imageUrl', t.image_url) ORDER BY t.trophy_id)
 				        FROM trophies t WHERE (t.service, t.set_id) = (e.service, e.set_id)), '[]'))::text
 				FROM public_game_editions e
 				LEFT JOIN LATERAL (
@@ -169,6 +169,10 @@ class PublicGamesController {
 			.orElseThrow(PublicGamesController::missing);
 	}
 
+	/**
+	 * Keep previews available to frontend versions deployed before the shared tile used
+	 * the original image.
+	 */
 	@GetMapping("/{slug}/trophies/{id}/artwork-preview")
 	ResponseEntity<byte[]> artworkPreview(@PathVariable String slug, @PathVariable int id) {
 		String imageUrl = jdbc.sql("""

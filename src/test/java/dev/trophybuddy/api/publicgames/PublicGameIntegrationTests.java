@@ -29,7 +29,7 @@ class PublicGameIntegrationTests {
 	private MockMvc mvc;
 
 	@Test
-	void anonymousCatalogKeepsSpoilersOutsideTheInitialPayload() throws Exception {
+	void anonymousCatalogProvidesArtworkAndWithholdsSpoilerText() throws Exception {
 		String database = jdbc.sql("SELECT current_database()").query(String.class).single();
 		if (!database.endsWith("_spring_test")) {
 			throw new IllegalStateException("Write verification requires a dedicated _spring_test database");
@@ -77,11 +77,13 @@ class PublicGameIntegrationTests {
 			.andExpect(jsonPath("$.guide.routes[0].playthroughs").value(1))
 			.andExpect(jsonPath("$.guide.routes[0].checkpointIds[0]").value("later"))
 			.andExpect(jsonPath("$.trophies[0].hidden").value(true))
+			.andExpect(jsonPath("$.trophies[0].imageUrl").value("https://example.com/secret.png"))
+			.andExpect(jsonPath("$.trophies[0].name").isEmpty())
+			.andExpect(jsonPath("$.trophies[0].description").isEmpty())
 			.andExpect(jsonPath("$.trophies[0].earnedRate").value(4.2))
 			.andExpect(jsonPath("$.trophies[0].earned").doesNotExist())
 			.andExpect(jsonPath("$.mainStoryHours").value(12.5))
 			.andExpect(content().string(not(containsString("Secret"))))
-			.andExpect(content().string(not(containsString("secret.png"))))
 			.andExpect(content().string(not(containsString("Unrelated Spoiler"))));
 		mvc.perform(get("/api/v1/games/fixture-ps5/guides/1/checkpoints/deadline"))
 			.andExpect(status().isOk())
@@ -104,7 +106,8 @@ class PublicGameIntegrationTests {
 		mvc.perform(get("/api/v1/games/fixture-ps5/guides/2/checkpoint-details")).andExpect(status().isNotFound());
 		mvc.perform(get("/api/v1/games/fixture-ps5/trophies/7"))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.name").value("Secret Title"));
+			.andExpect(jsonPath("$.name").value("Secret Title"))
+			.andExpect(jsonPath("$.imageUrl").value("https://example.com/secret.png"));
 		mvc.perform(get("/api/v1/games/missing")).andExpect(status().isNotFound());
 		mvc.perform(get("/api/v1/library")).andExpect(status().isUnauthorized());
 	}

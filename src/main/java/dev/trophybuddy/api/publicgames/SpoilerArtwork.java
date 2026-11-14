@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 import org.springframework.stereotype.Component;
@@ -70,7 +71,14 @@ class SpoilerArtwork {
 
 	private byte[] download(String imageUrl) {
 		URI uri = sourceUri(imageUrl);
-		if (!downloads.tryAcquire()) {
+		try {
+			// A collection can lazy-load several previews together on a cold cache.
+			if (!downloads.tryAcquire(3, TimeUnit.SECONDS)) {
+				throw new ApiFailure("spoiler_artwork_busy", 503);
+			}
+		}
+		catch (InterruptedException ignored) {
+			Thread.currentThread().interrupt();
 			throw new ApiFailure("spoiler_artwork_busy", 503);
 		}
 		try {
@@ -106,7 +114,7 @@ class SpoilerArtwork {
 	 * Only trust PlayStation CDN URLs, including artwork previously stored by older
 	 * imports.
 	 */
-	private static URI sourceUri(String imageUrl) {
+	static URI sourceUri(String imageUrl) {
 		URI uri;
 		try {
 			uri = URI.create(imageUrl);
@@ -115,9 +123,13 @@ class SpoilerArtwork {
 			throw unavailable();
 		}
 		String host = uri.getHost();
-		if (!"https".equals(uri.getScheme()) || uri.getUserInfo() != null || uri.getPort() != -1 || host == null
-				|| !("psnobj.prod.dl.playstation.net".equals(host)
-						|| host.matches("trophy[0-9]{2}\\.np\\.community\\.playstation\\.net"))) {
+		if (!"https".equals(uri.getScheme()) || uri.getUserInfo() != null || uri.getPort() != -1 || host == null) {
+			throw unavailable();
+		}
+		boolean trophyImageApi = "image.api.playstation.com".equals(host)
+				&& uri.getRawPath().matches("/trophy/[A-Za-z0-9_/-]+\\.[A-Za-z0-9]+");
+		if (!trophyImageApi && !"psnobj.prod.dl.playstation.net".equals(host)
+				&& !host.matches("trophy[0-9]{2}\\.np\\.community\\.playstation\\.net")) {
 			throw unavailable();
 		}
 		return uri;
