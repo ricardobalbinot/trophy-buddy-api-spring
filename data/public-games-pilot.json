@@ -6,13 +6,28 @@
     "title": "Persona 5 Royal",
     "platform": "PS5",
     "guide": {
-      "revision": 5,
+      "revision": 6,
       "difficulty": 2,
       "hoursMin": 100,
       "hoursMax": null,
       "playthroughs": 1,
       "missables": "confirmed_some",
       "online": "confirmed_none",
+      "walkthroughs": [
+        {
+          "trophyIds": [14],
+          "steps": [
+            "Chegue ao nível máximo de Conhecimento antes das provas de outubro ou dezembro. Se ainda faltar Conhecimento, mire dezembro, a última oportunidade.",
+            "Salve antes do primeiro dia de provas e acerte todas as respostas da semana. O troféu sai quando a escola divulgar a classificação."
+          ]
+        },
+        {
+          "trophyIds": [19],
+          "steps": [
+            "Garanta acesso ao terceiro semestre seguindo o checkpoint com prazo de novembro. A evolução que vale para o troféu acontece automaticamente numa cena obrigatória de janeiro."
+          ]
+        }
+      ],
       "preparation": [
         "Alterne entre dois ou mais arquivos de save. Preserve um save anterior aos principais prazos do calendário.",
         "Priorize os vínculos ligados a prazos. Deixe tarefas de rotina para dias com mais folga.",
@@ -37,7 +52,7 @@
           "title": "Comece cedo as atividades que exigem vários dias",
           "action": "Distribua o tempo livre entre atributos sociais e vínculos. Alterne atividades que aumentam atributos e priorize um aliado para fortalecer o vínculo até o máximo.",
           "critical": false,
-          "spoiler": "Conhecimento alto ajuda na colocação dos exames. Maximize o vínculo de um aliado para poder evoluir a Persona dele na parte extra de Royal.",
+          "spoiler": "Conhecimento alto ajuda na colocação dos exames. Para o troféu de evolução, a primeira transformação ao maximizar um vínculo não conta. A evolução de Morgana em 10 de janeiro cumpre o requisito automaticamente no terceiro semestre.",
           "trophyIds": [14, 15, 18, 19],
           "sourceIds": ["pst"]
         },
@@ -89,13 +104,24 @@
     "title": "Phoenix Wright: Ace Attorney Trilogy",
     "platform": "PS4",
     "guide": {
-      "revision": 5,
+      "revision": 6,
       "difficulty": 2,
       "hoursMin": 40,
       "hoursMax": 50,
       "playthroughs": 1,
       "missables": "confirmed_none",
       "online": "confirmed_none",
+      "walkthroughs": [
+        {
+          "trophyIds": [28],
+          "steps": [
+            "No primeiro Ace Attorney, examine a escada do Estúdio 1 no episódio 3 e a do estacionamento subterrâneo no episódio 5.",
+            "Em Justice for All, examine a escada na tenda do circo no episódio 3.",
+            "Em Trials and Tribulations, examine a escada no depósito do subsolo no episódio 2. No episódio 5, examine a do pátio do templo depois de receber o detector de metais.",
+            "Se alguma conversa ficou para trás, volte só ao episódio correspondente pela seleção de capítulos."
+          ]
+        }
+      ],
       "preparation": [
         "Jogue os casos na ordem da coletânea para acompanhar a história.",
         "Alguns troféus podem passar batido durante um caso, como o das escadas. A seleção de capítulos permite recuperar as interações sem recomeçar a campanha.",
@@ -158,15 +184,42 @@
     "title": "ASTRO BOT",
     "platform": "PS5",
     "guide": {
-      "revision": 1,
+      "revision": 2,
       "difficulty": 3,
       "hoursMin": 15,
       "hoursMax": 15,
       "playthroughs": 1,
       "missables": "confirmed_none",
       "online": "confirmed_none",
+      "walkthroughs": [
+        {
+          "trophyIds": [34],
+          "steps": [
+            "Resgate Nathan Drake ao concluir a luta com Lady Venomara e encontre Lara Croft na pirâmide do Cosmo da Camuflagem.",
+            "Com a câmera do Parque do Safári, chame os Bots no Local da Queda e fotografe Nathan e Lara no mesmo quadro."
+          ],
+          "videoId": "HTmF6pnQjn8"
+        },
+        {
+          "trophyIds": [35],
+          "steps": [
+            "Resgate Kratos e Thor e pegue a fogueira de Kratos no Laboratório Gatcha.",
+            "No Local da Queda, acerte Kratos para provocar o arremesso. Posicione-se atrás de Thor para que o machado congele Thor."
+          ],
+          "videoId": "4VMANkdaSxY"
+        }
+      ],
       "preparation": [],
-      "checkpoints": [],
+      "checkpoints": [
+        {
+          "id": "crash-site-interactions",
+          "title": "Local da Queda · Interações com os Bots resgatados",
+          "action": "Ao voltar das fases, confira as interações dos Bots no Local da Queda. A câmera e alguns prêmios do Gatcha liberam objetivos opcionais.",
+          "critical": false,
+          "trophyIds": [34, 35],
+          "sourceIds": ["powerpyx"]
+        }
+      ],
       "sources": [
         {"id": "powerpyx", "name": "PowerPyx", "url": "https://www.powerpyx.com/astro-bot-trophy-guide-roadmap/"},
         {"id": "psnp", "name": "PSNProfiles", "url": "https://psnprofiles.com/guide/20437"}
@@ -180,13 +233,30 @@
     "title": "Lies of P",
     "platform": "PS5",
     "guide": {
-      "revision": 2,
+      "revision": 3,
       "difficulty": null,
       "hoursMin": null,
       "hoursMax": null,
       "playthroughs": 2,
       "missables": "confirmed_some",
       "online": "confirmed_none",
+      "walkthroughs": [
+        {
+          "trophyIds": [11],
+          "steps": [
+            "Guarde os Ergos dos chefes e troque cada um pela arma correspondente com Alidoro ou Hugo. Se trocar por um amuleto, a arma fica para outro ciclo.",
+            "Acumule humanidade ao longo da campanha e confira o retrato no escritório do Hotel Krat. Ele pode liberar uma arma que não vem das trocas."
+          ]
+        },
+        {
+          "trophyIds": [13],
+          "steps": [
+            "Mantenha os discos no mesmo arquivo e escolha a resposta oposta na missão de Eugénie no New Game+ para obter a outra recompensa.",
+            "Logo no início do New Game+, compre o disco dourado do vendedor perto do Mestre do Desfile antes de avançar. Ele sai dali mais tarde.",
+            "Com a coleção completa, dê início a cada faixa no gramofone do Hotel Krat. Você pode passar para a próxima assim que a reprodução começar."
+          ]
+        }
+      ],
       "firstPlaythroughNote": "Se quiser descobrir a história sem dicas, termine uma vez no seu ritmo. Mantenha um save antes de iniciar o New Game+. Dependendo dos finais e discos que faltarem, pode ser preciso um ciclo extra.",
       "preparation": [
         "A dificuldade escolhida não bloqueia troféus. Planeje os finais e os discos, que são o que determina o número de jogadas.",
@@ -204,6 +274,11 @@
           "url": "https://www.powerpyx.com/lies-of-p-all-record-locations/"
         },
         {
+          "id": "special-weapons",
+          "name": "PowerPyx · Localização das armas especiais",
+          "url": "https://www.powerpyx.com/lies-of-p-all-special-weapon-locations/"
+        },
+        {
           "id": "endings",
           "name": "PowerPyx · Requisitos dos finais",
           "url": "https://www.powerpyx.com/lies-of-p-all-endings-guide/"
@@ -218,7 +293,8 @@
           "critical": true,
           "sourceIds": [
             "roadmap",
-            "records"
+            "records",
+            "special-weapons"
           ]
         },
         {
@@ -329,7 +405,7 @@
     "title": "Uncharted 4: A Thief’s End",
     "platform": "PS4",
     "guide": {
-      "revision": 2,
+      "revision": 4,
       "difficulty": 5,
       "hoursMin": null,
       "hoursMax": null,
@@ -337,6 +413,30 @@
       "missables": "confirmed_some",
       "online": "confirmed_some",
       "firstPlaythroughNote": "Se preferir explorar no seu ritmo, jogue a história uma vez sem consultar o guia. Depois você pode recuperar colecionáveis pela seleção de capítulos. A dificuldade e o speedrun ainda podem exigir outras jogadas.",
+      "walkthroughs": [
+        {
+          "trophyIds": [6],
+          "steps": [
+            "Inicie uma campanha em Explorador. Pule as cenas e avance direto para os objetivos, deixando colecionáveis e conversas opcionais para a seleção de capítulos.",
+            "Confira o tempo de jogo nas estatísticas do menu de pausa ao longo da campanha. Termine em até seis horas."
+          ]
+        },
+        {
+          "trophyIds": [24],
+          "steps": [
+            "Ative a mira automática nas opções e prefira tiros únicos com a Barok .44 em vez de disparar rajadas.",
+            "Acompanhe a precisão nas estatísticas do menu de pausa e termine a campanha com pelo menos 70% de acertos."
+          ]
+        },
+        {
+          "trophyIds": [9, 12, 14],
+          "steps": [
+            "Abra a seleção de capítulos e confira quais ainda têm tesouros, registros ou anotações faltando.",
+            "Reabra apenas os capítulos incompletos e siga o vídeo na ordem do capítulo. Assim que o item aparecer no contador, você pode voltar à seleção."
+          ],
+          "videoId": "8_Crp9MXS7A"
+        }
+      ],
       "preparation": [
         "A rota cobre a platina da edição original de PS4. Reserve tempo para os troféus do multijogador do jogo base.",
         "Use o guia de colecionáveis por capítulo para acompanhar tesouros, anotações e conversas. Você pode recuperar itens pela seleção de capítulos."
@@ -429,7 +529,7 @@
           "id": "multiplayer",
           "trophyIds": [51, 52, 53, 54, 55],
           "title": "Multijogador · Complete os objetivos do jogo base",
-          "action": "Separe uma sessão para a introdução, partidas, desafios e assistências a aliados. Esses objetivos ficam fora das jogadas de campanha.",
+          "action": "Complete a introdução do multijogador para liberar os modos. As partidas, os desafios e as assistências a aliados contam fora da campanha.",
           "critical": false,
           "sourceIds": [
             "roadmap"

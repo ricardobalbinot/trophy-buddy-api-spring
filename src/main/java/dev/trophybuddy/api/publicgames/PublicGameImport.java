@@ -170,6 +170,17 @@ class PublicGameImport implements ApplicationRunner {
 				}
 			}
 		}
+		if (entry.guide().walkthroughs() != null) {
+			var assigned = new HashSet<Integer>();
+			for (var walkthrough : entry.guide().walkthroughs()) {
+				for (var id : walkthrough.trophyIds()) {
+					var trophy = trophies.get(id);
+					if (trophy == null || trophy.hidden() || !assigned.add(id)) {
+						throw new IllegalArgumentException("Invalid walkthrough trophy for " + entry.slug());
+					}
+				}
+			}
+		}
 	}
 
 	private void saveGuide(Edition entry) {
@@ -235,6 +246,17 @@ class PublicGameImport implements ApplicationRunner {
 						|| route.checkpointIds().isEmpty() || !checkpoints.containsAll(route.checkpointIds())
 						|| new HashSet<>(route.checkpointIds()).size() != route.checkpointIds().size()) {
 					throw new IllegalArgumentException("Invalid route for " + edition.slug());
+				}
+			}
+		}
+		if (guide.walkthroughs() != null) {
+			for (var walkthrough : guide.walkthroughs()) {
+				if (walkthrough == null || walkthrough.trophyIds() == null || walkthrough.trophyIds().isEmpty()
+						|| walkthrough.steps() == null
+						|| walkthrough.steps().stream().anyMatch(step -> step == null || step.isBlank())
+						|| (walkthrough.steps().isEmpty() && walkthrough.videoId() == null)
+						|| (walkthrough.videoId() != null && !matches(walkthrough.videoId(), "[a-zA-Z0-9_-]{11}"))) {
+					throw new IllegalArgumentException("Invalid walkthrough for " + edition.slug());
 				}
 			}
 		}
