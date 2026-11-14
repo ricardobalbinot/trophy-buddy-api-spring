@@ -1,5 +1,41 @@
 [
-  {"slug":"god-of-war-ps4","service":"trophy","setId":"NPWR12518_00","title":"God of War","platform":"PS4"},
+  {
+    "slug": "god-of-war-ps4",
+    "service": "trophy",
+    "setId": "NPWR12518_00",
+    "title": "God of War",
+    "platform": "PS4",
+    "guide": {
+      "revision": 1,
+      "difficulty": 4,
+      "hoursMin": 30,
+      "hoursMax": 40,
+      "playthroughs": 1,
+      "missables": "confirmed_none",
+      "online": "confirmed_none",
+      "preparation": [
+        "Jogue a campanha na dificuldade que preferir. Os troféus podem ser concluídos depois dos créditos.",
+        "Na exploração, abra os baús de runas que encontrar. As melhorias de saúde e fúria ajudam nos desafios do pós-jogo."
+      ],
+      "sources": [
+        {"id": "powerpyx", "name": "PowerPyx", "url": "https://www.powerpyx.com/god-of-war-2018-trophy-guide-roadmap/"},
+        {"id": "gamefaqs", "name": "GameFAQs", "url": "https://gamefaqs.gamespot.com/ps4/191627-god-of-war/faqs/75829/trophy-guide"},
+        {"id": "pst", "name": "PlayStationTrophies", "url": "https://www.playstationtrophies.org/forum/topic/301199-god-of-war-2018-trophy-guide-and-roadmap/"}
+      ],
+      "checkpoints": [
+        {"id": "campaign", "title": "Termine a história no seu ritmo", "action": "Se uma passagem estiver bloqueada, avance na campanha e volte depois com as ferramentas que ela libera.", "critical": false, "sourceIds": ["powerpyx", "pst"]},
+        {"id": "midgard", "title": "Revise Midgard por região", "action": "Use os contadores do mapa para encontrar artefatos e corvos. Faça os favores dos ferreiros e dos espíritos durante as mesmas visitas. Acompanhe os santuários Jötnar à parte, pois o mapa não tem contador para eles.", "critical": false, "trophyIds": [22, 23, 24, 25, 31, 32, 33], "sourceIds": ["powerpyx", "gamefaqs"]},
+        {"id": "realms", "title": "Complete os desafios dos reinos opcionais", "action": "Procure os baús roxos para abrir os dois reinos opcionais. Faça os desafios quando tiver equipamento melhor e aproveite os materiais para completar os aprimoramentos.", "critical": false, "trophyIds": [14, 27, 34, 35], "sourceIds": ["powerpyx", "gamefaqs"]},
+        {"id": "final-fight", "title": "Deixe o confronto mais difícil para o fim", "action": "Resolva os confrontos opcionais enquanto explora os reinos. Melhore a armadura antes de encarar o último deles.", "critical": false, "spoiler": "Derrote as oito valquírias e leve os elmos ao Conselho das Valquírias para enfrentar Sigrun. Há uma valquíria em Muspelheim e outra em Niflheim.", "trophyIds": [36], "sourceIds": ["powerpyx", "gamefaqs"]}
+      ],
+      "walkthroughs": [
+        {"trophyIds": [23], "steps": ["Complete os dois favores de Brok e os dois de Sindri em Midgard. Depois, fale com os dois na oficina do Templo de Týr e conclua o favor conjunto."]},
+        {"trophyIds": [25], "steps": ["Abra o mapa e confira os corvos restantes região por região. Procure o brilho verde e ouça o grasnado. Mire o machado à frente dos que estiverem voando, para acertá-los durante a trajetória."]},
+        {"trophyIds": [34], "steps": ["Conclua as versões normal e difícil das cinco primeiras arenas. Derrote a valquíria no topo para abrir as provas impossíveis.", "Vença três provas impossíveis à sua escolha para conseguir as chaves. Volte à arena do topo e conclua o desafio final."]},
+        {"trophyIds": [35], "steps": ["Faça expedições curtas no labirinto de Niflheim e retorne em segurança para guardar os materiais. Use Ecos de Névoa para abrir os baús da câmara central e obtenha três Âncoras de Névoa para abrir as fendas.", "Conclua as três fendas e abra todos os cinco baús da câmara. Use os Ecos em equipamento resistente à névoa se a duração das expedições estiver atrapalhando."]}
+      ]
+    }
+  },
   {"slug":"horizon-zero-dawn-ps4","service":"trophy","setId":"NPWR11556_00","title":"Horizon Zero Dawn","platform":"PS4"},
   {"slug":"grand-theft-auto-v-ps4","service":"trophy","setId":"NPWR06221_00","title":"Grand Theft Auto V","platform":"PS4","igdbSlug":"grand-theft-auto-v"},
   {"slug":"marvels-spider-man-ps4","service":"trophy","setId":"NPWR09167_00","title":"Marvel's Spider-Man","platform":"PS4"},
@@ -7,6 +43,81 @@
   {"slug":"rocket-league-ps4","service":"trophy","setId":"NPWR07466_00","title":"Rocket League","platform":"PS4"},
   {"slug":"infamous-second-son-ps4","service":"trophy","setId":"NPWR05740_00","title":"inFAMOUS Second Son","platform":"PS4"},
   {"slug":"call-of-duty-black-ops-iii-ps4","service":"trophy","setId":"NPWR08801_00","title":"Call of Duty: Black Ops III","platform":"PS4"},
-  {"slug":"ratchet-and-clank-ps4","service":"trophy","setId":"NPWR07942_00","title":"Ratchet & Clank","platform":"PS4","igdbSlug":"ratchet-and-clank"},
-  {"slug":"astros-playroom-ps5","service":"trophy2","setId":"NPWR20188_00","title":"ASTRO's PLAYROOM","platform":"PS5"}
+  {
+    "slug": "ratchet-and-clank-ps4",
+    "service": "trophy",
+    "setId": "NPWR07942_00",
+    "title": "Ratchet & Clank",
+    "platform": "PS4",
+    "igdbSlug": "ratchet-and-clank",
+    "guide": {
+      "revision": 1,
+      "difficulty": 3,
+      "hoursMin": 25,
+      "hoursMax": 25,
+      "playthroughs": 2,
+      "missables": "confirmed_some",
+      "online": "confirmed_none",
+      "preparation": [
+        "Resolva manualmente os quebra-cabeças do Invasor. Usar o AutoHack pode custar outra jogada para o troféu.",
+        "Alterne as armas enquanto avança. Quando uma chegar ao nível 5 na primeira campanha, aproveite para evoluir outra.",
+        "Compre o Groovitron antes do Modo Desafio. Na segunda jogada, mantenha a lista de inimigos à mão desde o primeiro combate."
+      ],
+      "sources": [
+        {"id": "powerpyx", "name": "PowerPyx", "url": "https://www.powerpyx.com/guides/ratchet-and-clank-2016-trophy-guide.html"},
+        {"id": "trophy-tom", "name": "Trophy Tom", "url": "https://www.trophy-tom.com/ratchet-clank-2016-trophy-guide/"},
+        {"id": "pst", "name": "PlayStationTrophies", "url": "https://www.playstationtrophies.org/game/ratchet-and-clank-ps4/trophy/138674-safecracker.html"}
+      ],
+      "checkpoints": [
+        {"id": "manual-hacking", "title": "Resolva os painéis sem AutoHack", "action": "Faça os quebra-cabeças do Invasor manualmente. Inclua os painéis opcionais que guardam cartas e parafusos.", "critical": true, "trophyIds": [12], "sourceIds": ["powerpyx", "trophy-tom", "pst"]},
+        {"id": "early-actions", "title": "Aproveite os encontros de Rilgar e Kalebo III", "action": "Confira estes dois encontros antes de eliminar os inimigos. Se um deles passar, refaça o objetivo no Modo Desafio.", "critical": true, "spoiler": "Em Rilgar, espere os exterminadores derrotarem 35 ameboides antes de acabar com a luta. Em Kalebo III, compre o Ovelhador antes de avançar até os helicópteros e use a arma contra um dos comandantes Blarg. Se perder esse encontro, tente no primeiro helicóptero de Kerwan no Modo Desafio.", "trophyIds": [34, 36], "sourceIds": ["powerpyx", "trophy-tom"]},
+        {"id": "collect-and-trade", "title": "Complete o arsenal e faça uma troca de cartas", "action": "Troque cinco cartas repetidas por uma que ainda falta assim que puder. Antes de recomeçar, use o mapa para voltar aos planetas e pegar parafusos de ouro e cartas da RYNO. Ganhe as taças de ouro de Rilgar e Kalebo para receber duas dessas cartas.", "critical": false, "trophyIds": [4, 5, 11, 46], "sourceIds": ["powerpyx", "trophy-tom"]},
+        {"id": "challenge-disco", "title": "Modo Desafio · comece com o Groovitron equipado", "action": "Use o Groovitron em cada variante de inimigo antes de derrotá-la. Repita o uso depois de recarregar um combate e dê atenção especial aos chefes e às aparições únicas.", "critical": true, "trophyIds": [42], "sourceIds": ["powerpyx", "trophy-tom"]},
+        {"id": "challenge-cleanup", "title": "Modo Desafio · termine a campanha e evolua o arsenal", "action": "Compre as versões Ômega, leve as armas ao nível 10 e complete as modificações de raritânio. Aproveite os combates para elevar a saúde de Ratchet e tente chegar ao multiplicador de 20× sem sofrer dano.", "critical": false, "trophyIds": [3, 6, 7, 8, 45], "sourceIds": ["trophy-tom"]}
+      ],
+      "walkthroughs": [
+        {"trophyIds": [12], "videoId": "La_IMUPkHZo", "steps": ["Resolva todos os 16 painéis manualmente na mesma jogada. Use a lista do vídeo para conferir os painéis opcionais. As soluções mostradas são da dificuldade Casual."]},
+        {"trophyIds": [42], "videoId": "pDjbR9v7kYE", "steps": ["Comece pelo primeiro inimigo em Veldin no Modo Desafio e acompanhe o vídeo por planeta. Confirme que cada alvo entrou na dança antes de derrotá-lo. Inclua as variantes de robôs e os chefes.", "Se morrer ou recarregar, use o Groovitron novamente nos encontros refeitos. Marque cada variante fora do jogo, pois não há checklist interno."]},
+        {"trophyIds": [46], "steps": ["Abra a coleção de cartas holográficas quando tiver cinco duplicatas. Escolha uma carta faltante e confirme a troca antes de completar a coleção."]}
+      ]
+    }
+  },
+  {
+    "slug": "astros-playroom-ps5",
+    "service": "trophy2",
+    "setId": "NPWR20188_00",
+    "title": "ASTRO's PLAYROOM",
+    "platform": "PS5",
+    "guide": {
+      "revision": 1,
+      "difficulty": 2,
+      "hoursMin": 3,
+      "hoursMax": 4,
+      "playthroughs": 1,
+      "missables": "confirmed_none",
+      "online": "confirmed_none",
+      "preparation": [
+        "Explore os quatro mundos no seu ritmo. A seleção de fases permite revisitar qualquer trecho.",
+        "A platina é do jogo base. Consulte os dois grupos adicionais se também quiser fechar a lista em 100%."
+      ],
+      "sources": [
+        {"id": "powerpyx", "name": "PowerPyx", "url": "https://www.powerpyx.com/astros-playroom-trophy-guide-roadmap/"},
+        {"id": "platget", "name": "PlatGet", "url": "https://platget.com/guides/astros-playroom-trophy-guide/"},
+        {"id": "team-asobi", "name": "Team Asobi · PlayStation Blog", "url": "https://blog.playstation.com/?p=393775"},
+        {"id": "push-square", "name": "Push Square", "url": "https://www.pushsquare.com/guides/astros-playroom-all-special-bots-locations"}
+      ],
+      "checkpoints": [
+        {"id": "four-worlds", "title": "Complete os quatro mundos", "action": "Pegue as moedas, peças e artefatos que encontrar. Use a seleção de fases para voltar direto ao trecho com algum item faltante.", "critical": false, "trophyIds": [1, 2, 3, 4], "sourceIds": ["powerpyx", "platget"]},
+        {"id": "collections", "title": "Complete as coleções no PlayStation Labo", "action": "Confira as peças da Praça da CPU e os itens dos quatro mundos. Gaste as moedas na máquina Gatcha, que também guarda peças e artefatos da coleção do jogo base.", "critical": false, "trophyIds": [10, 16, 20], "sourceIds": ["powerpyx", "platget"]},
+        {"id": "base-cleanup", "title": "Revise as interações que faltam", "action": "Passe pela Praça da CPU e pelo Labo para os troféus de interação. Confira a descrição de cada troféu para saber se a ação pede um objeto do Labo ou uma habilidade numa fase específica.", "critical": false, "trophyIds": [21, 22, 29, 35, 36], "sourceIds": ["powerpyx", "platget"]},
+        {"id": "optional-addons", "title": "Extras opcionais para 100%", "action": "Os dois grupos adicionais ficam fora da platina. Abra os detalhes para ver quais atividades completar nos extras.", "critical": false, "spoiler": "Conclua a fase bônus sob a Praça da CPU, faça a prova da esfera com os bots e some até sete minutos nas oito pistas de velocidade. Depois, procure os quatro Bots Especiais, um em cada mundo. O resgate do último libera também o troféu pelo grupo completo.", "trophyIds": [43, 44, 45, 46], "sourceIds": ["powerpyx", "platget", "team-asobi", "push-square"]}
+      ],
+      "walkthroughs": [
+        {"trophyIds": [10], "steps": ["Use a seleção de fases para encontrar os artefatos faltantes dos quatro mundos. Termine a coleção do Labo na máquina Gatcha."]},
+        {"trophyIds": [16], "steps": ["Confira 16 peças em cada um dos quatro mundos, quatro na Praça da CPU e 28 na máquina Gatcha do Labo."]},
+        {"trophyIds": [20], "steps": ["Use as moedas na máquina ao fundo do PlayStation Labo até esgotar os prêmios. Se faltarem moedas, rejogue fases e recolha as que reaparecem."]},
+        {"trophyIds": [22], "steps": ["Na Praça da CPU, toque os bots com um soco para que comecem a seguir Astro. Faça a volta pela praça até estar andando com pelo menos 20 seguidores ao mesmo tempo."]}
+      ]
+    }
+  }
 ]
