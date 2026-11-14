@@ -30,6 +30,8 @@ class PublicGameImport implements ApplicationRunner {
 
 	private static final String RATE_PROFILE_OPTION = "trophybuddy.public-games-rate-profile";
 
+	private static final String DEFINITIONS_ONLY_OPTION = "trophybuddy.public-games-definitions-only";
+
 	private static final Set<String> REQUIREMENTS = Set.of("confirmed_none", "confirmed_some", "unknown");
 
 	private final PsnClient psn;
@@ -62,6 +64,10 @@ class PublicGameImport implements ApplicationRunner {
 		}
 		String slug = singleOption(args, SLUG_OPTION);
 		String rateProfile = singleOption(args, RATE_PROFILE_OPTION);
+		boolean definitionsOnly = args.containsOption(DEFINITIONS_ONLY_OPTION);
+		if (definitionsOnly && !args.getOptionValues(DEFINITIONS_ONLY_OPTION).isEmpty()) {
+			throw new IllegalArgumentException("Use --" + DEFINITIONS_ONLY_OPTION + " without a value");
+		}
 		if (rateProfile != null && !matches(rateProfile, "[A-Za-z][A-Za-z0-9_-]{2,15}")) {
 			throw new IllegalArgumentException("Provide one public PSN Online ID for rate lookup");
 		}
@@ -74,7 +80,7 @@ class PublicGameImport implements ApplicationRunner {
 			}
 			String rateAccount = rateProfile == null ? null : psn.resolvePublicAccount(rateProfile);
 			for (var entry : selected) {
-				importEdition(entry, rateAccount);
+				importEdition(entry, rateAccount, definitionsOnly);
 				reportRateCoverage(entry);
 			}
 		}
@@ -106,14 +112,14 @@ class PublicGameImport implements ApplicationRunner {
 	}
 
 	/** Fetch outside the transaction and publish each complete edition atomically. */
-	private void importEdition(Edition entry, String rateAccount) {
+	private void importEdition(Edition entry, String rateAccount, boolean definitionsOnly) {
 		var observations = psn.trophyDefinitions(entry.service(), entry.setId(), rateAccount);
 		String observedAt = PsnClient.timestamp();
 		if (observations.trophies().isEmpty()) {
 			throw new IllegalStateException("PSN returned no trophy definitions for " + entry.slug());
 		}
 		validateTrophyReferences(entry, observations);
-		var metadata = catalog.find(entry.title(), entry.platform());
+		var metadata = definitionsOnly ? null : catalog.find(entry.title(), entry.platform(), entry.igdbSlug());
 		String cover = metadata == null ? null : metadata.path("coverUrl").asText(null);
 		var storyHours = metadata == null ? null : metadata.path("mainStoryHours");
 		transactions.executeWithoutResult(status -> {
@@ -123,6 +129,9 @@ class PublicGameImport implements ApplicationRunner {
 				.update();
 			definitions.save(entry.service(), entry.setId(), observedAt,
 					json.writeValueAsString(observations.trophies()), json.writeValueAsString(observations.groups()));
+			if (definitionsOnly) {
+				return;
+			}
 			int saved = jdbc
 				.sql("""
 						INSERT INTO public_game_editions(slug, service, set_id, title, platform, cover_url, main_story_hours)
@@ -204,6 +213,7 @@ class PublicGameImport implements ApplicationRunner {
 				|| !matches(edition.service(), "trophy|trophy2")
 				|| !matches(edition.setId(), "NPWR[0-9]{1,12}_[0-9]{2}")
 				|| !matches(edition.platform(), "PS3|PS4|PS5|PSVITA") || edition.title() == null
+				|| (edition.igdbSlug() != null && !matches(edition.igdbSlug(), "[a-z0-9-]{1,120}"))
 				|| edition.title().isBlank()) {
 			throw new IllegalArgumentException("Invalid public edition");
 		}
@@ -266,7 +276,8 @@ class PublicGameImport implements ApplicationRunner {
 		return value != null && value.matches(pattern);
 	}
 
-	record Edition(String slug, String service, String setId, String title, String platform, PublicGuide guide) {
+	record Edition(String slug, String service, String setId, String title, String platform, PublicGuide guide,
+			String igdbSlug) {
 	}
 
 }

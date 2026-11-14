@@ -11,6 +11,7 @@ FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 COPY --from=build /workspace/target/trophy-buddy-api-spring-0.0.1-SNAPSHOT.jar /app/trophy-buddy-api.jar
 COPY data/public-games-pilot.json /app/data/public-games-pilot.json
+COPY data/public-games-batch-01.json /app/data/public-games-batch-01.json
 ENV SERVER_ADDRESS=0.0.0.0
 USER 10001:10001
 CMD ["java", "-jar", "/app/trophy-buddy-api.jar"]

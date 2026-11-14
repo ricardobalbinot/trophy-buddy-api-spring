@@ -1,0 +1,12 @@
+[
+  {"slug":"god-of-war-ps4","service":"trophy","setId":"NPWR12518_00","title":"God of War","platform":"PS4"},
+  {"slug":"horizon-zero-dawn-ps4","service":"trophy","setId":"NPWR11556_00","title":"Horizon Zero Dawn","platform":"PS4"},
+  {"slug":"grand-theft-auto-v-ps4","service":"trophy","setId":"NPWR06221_00","title":"Grand Theft Auto V","platform":"PS4","igdbSlug":"grand-theft-auto-v"},
+  {"slug":"marvels-spider-man-ps4","service":"trophy","setId":"NPWR09167_00","title":"Marvel's Spider-Man","platform":"PS4"},
+  {"slug":"red-dead-redemption-2-ps4","service":"trophy","setId":"NPWR09412_00","title":"Red Dead Redemption 2","platform":"PS4"},
+  {"slug":"rocket-league-ps4","service":"trophy","setId":"NPWR07466_00","title":"Rocket League","platform":"PS4"},
+  {"slug":"infamous-second-son-ps4","service":"trophy","setId":"NPWR05740_00","title":"inFAMOUS Second Son","platform":"PS4"},
+  {"slug":"call-of-duty-black-ops-iii-ps4","service":"trophy","setId":"NPWR08801_00","title":"Call of Duty: Black Ops III","platform":"PS4"},
+  {"slug":"ratchet-and-clank-ps4","service":"trophy","setId":"NPWR07942_00","title":"Ratchet & Clank","platform":"PS4","igdbSlug":"ratchet-and-clank"},
+  {"slug":"astros-playroom-ps5","service":"trophy2","setId":"NPWR20188_00","title":"ASTRO's PLAYROOM","platform":"PS5"}
+]

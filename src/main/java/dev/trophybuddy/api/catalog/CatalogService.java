@@ -57,6 +57,14 @@ public class CatalogService {
 	 * Catalogue data is optional, including when its provider or cache is unavailable.
 	 */
 	public JsonNode find(String title, String platform) {
+		return find(title, platform, null);
+	}
+
+	/**
+	 * Resolve a reviewed IGDB slug while still requiring an exact name and compatible
+	 * platform.
+	 */
+	public JsonNode find(String title, String platform, String igdbSlug) {
 		var platforms = Arrays.stream(platform.split(","))
 			.map(String::trim)
 			.filter(PLATFORMS::containsKey)
@@ -68,7 +76,10 @@ public class CatalogService {
 			return null;
 		}
 		String normalized = normalize(title);
-		String key = cacheKey(normalized, platforms);
+		if (igdbSlug != null && !igdbSlug.matches("[a-z0-9-]{1,120}")) {
+			throw new IllegalArgumentException("Invalid IGDB slug");
+		}
+		String key = cacheKey(igdbSlug == null ? normalized : normalized + ":" + igdbSlug, platforms);
 		try {
 			var cached = jdbc.sql("""
 					SELECT coalesce(payload::text, 'null') FROM catalog_cache
@@ -77,7 +88,7 @@ public class CatalogService {
 			if (cached.isPresent()) {
 				return json.readTree(cached.get());
 			}
-			var result = lookup(title, normalized, platforms);
+			var result = lookup(title, normalized, platforms, igdbSlug);
 			jdbc.sql("""
 					INSERT INTO catalog_cache(key, payload, expires_at)
 					VALUES (:key, CAST(:payload AS jsonb), now() + interval '1 day')
@@ -90,12 +101,15 @@ public class CatalogService {
 		}
 	}
 
-	private ObjectNode lookup(String title, String normalized, List<Integer> platforms) {
+	private ObjectNode lookup(String title, String normalized, List<Integer> platforms, String igdbSlug) {
 		String platformList = String.join(",", platforms.stream().map(String::valueOf).toList());
-		String query = "search " + json.writeValueAsString(title.replaceAll("[™®©]", ""))
-				+ "; fields name,slug,alternative_names.name,cover.image_id,first_release_date,"
+		String search = igdbSlug == null ? "search " + json.writeValueAsString(title.replaceAll("[™®©]", "")) + "; "
+				: "";
+		String slugFilter = igdbSlug == null ? "" : " & slug = " + json.writeValueAsString(igdbSlug);
+		String query = search + "fields name,slug,alternative_names.name,cover.image_id,first_release_date,"
 				+ "involved_companies.developer,involved_companies.publisher,involved_companies.company.name,"
-				+ "genres.name,platforms.id,platforms.name; where platforms = (" + platformList + "); limit 50;";
+				+ "genres.name,platforms.id,platforms.name; where platforms = (" + platformList + ")" + slugFilter
+				+ "; limit 50;";
 		List<JsonNode> candidates = new ArrayList<>();
 		for (var row : request("games", query)) {
 			var names = names(row.path("alternative_names"));
@@ -106,6 +120,7 @@ public class CatalogService {
 			}
 			if (platformMatch && row.path("id").isIntegralNumber() && row.path("id").asInt() > 0
 					&& row.path("slug").asText("").matches("[a-z0-9-]+")
+					&& (igdbSlug == null || igdbSlug.equals(row.path("slug").asText()))
 					&& names.stream().map(CatalogService::normalize).anyMatch(normalized::equals)) {
 				candidates.add(row);
 			}

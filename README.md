@@ -97,6 +97,10 @@ java -jar target/trophy-buddy-api-spring-0.0.1-SNAPSHOT.jar \
 
 The same command accepts any manifest with verified Sony trophy set IDs. Each edition is saved atomically after its trophy definitions are fetched. Reimporting the same guide revision is safe. Increment the revision to publish a content change. The public API serves persisted data and loads concealed trophy or checkpoint details individually. Use an already baselined database or a fresh database for the import.
 
+If multiple IGDB entries match an edition, set `igdbSlug` in its manifest entry to the reviewed IGDB game slug. The importer still checks the title and platform before saving metadata.
+
+Use `--trophybuddy.public-games-definitions-only` with a manifest to store shared PSN trophy definitions and groups without creating public catalogue pages or guide revisions. Publish an edition and its reviewed guide together by running the import without this flag.
+
 To publish the pilot from a deployed container, run `java -jar /app/trophy-buddy-api.jar --spring.main.web-application-type=none --trophybuddy.public-games-file=/app/data/public-games-pilot.json` after the database is ready.
 
 The import reports how many trophies in each edition have a stored global rate. PSN may only return these rates for a profile that has synced the exact edition. To fill a gap, reimport with `--trophybuddy.public-games-slug=<edition-slug>` and `--trophybuddy.public-games-rate-profile=<public-online-id>` using a profile that has played it. The import stores the global rates alongside the trophy definitions and discards individual earnings.
